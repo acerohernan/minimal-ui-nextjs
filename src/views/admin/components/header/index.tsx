@@ -12,7 +12,7 @@ const AdminHeader = () => {
 
   return (
     <div className="relative">
-      <div className="w-full flex items-center justify-between p-4 fixed top-0 backdrop-blur-sm bg-white/80  dark:bg-dark-800/80 lg:px-14 lg:py-6 lg:relative">
+      <div className="w-full flex items-center justify-between p-4 fixed top-0 backdrop-blur-sm bg-white/80  dark:bg-dark-800/80 lg:px-10 lg:relative">
         <div className="flex items-center gap-2">
           <button
             className="icon-button lg:hidden"

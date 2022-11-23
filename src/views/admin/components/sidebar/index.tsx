@@ -2,7 +2,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import BagIconSvg from "../icons/bag";
+import CartIconSvg from "../icons/cart";
 import HomeIconSvg from "../icons/home";
+import InvoiceIconSvg from "../icons/invoice";
+import UserIconSvg from "../icons/user";
 
 interface ISidebarItem {
   icon: JSX.Element;
@@ -22,9 +25,9 @@ const ITEMS: ISidebarItem[] = [
   },
   {
     selectedIcon: (
-      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+      <InvoiceIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
-    icon: <BagIconSvg className="fill-slate-400" />,
+    icon: <InvoiceIconSvg className="fill-slate-400" />,
     label: "Orders",
     href: "/admin/orders",
   },
@@ -38,17 +41,17 @@ const ITEMS: ISidebarItem[] = [
   },
   {
     selectedIcon: (
-      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+      <CartIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
-    icon: <BagIconSvg className="fill-slate-400" />,
+    icon: <CartIconSvg className="fill-slate-400" />,
     label: "Configuration",
     href: "/admin/config",
   },
   {
     selectedIcon: (
-      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+      <UserIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
-    icon: <BagIconSvg className="fill-slate-400" />,
+    icon: <UserIconSvg className="fill-slate-400" />,
     label: "Profile",
     href: "/admin/profile",
   },
@@ -75,7 +78,7 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
           <XMarkIcon className="icon" />
         </button>
         <div className="p-4 mt-12 gap-1 grid lg:mt-20">
-          <span className="text-xs font-medium mb-2 block">GENERAL</span>
+          <span className="text-xs font-medium mb-2 block px-6">GENERAL</span>
           {ITEMS.map((item, index) => (
             <SideBarItem
               key={index}
