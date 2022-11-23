@@ -1,11 +1,10 @@
-import AdminHeader from "./components/header";
+import AdminLayout from "./components/layout";
 
 const AdminView = () => {
   return (
-    <div className="relative">
-      <AdminHeader />
-      <div className="mt-[72px]"></div>
-    </div>
+    <AdminLayout>
+      <></>
+    </AdminLayout>
   );
 };
 
