@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply dark:bg-dark-800 dark:text-white bg-slate-50 text-slate-800;
+  }
+}
+
+.icon {
+  @apply w-5 h-5 transition-all text-gray-500 dark:text-gray-400;
+}
+
+.icon-button {
+  @apply p-2 rounded-full transition-all hover:bg-gray-400/10 dark:hover:bg-gray-700/30 hover:scale-110;
+}
