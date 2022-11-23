@@ -1,22 +1,56 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import BagIconSvg from "../icons/bag";
 import HomeIconSvg from "../icons/home";
 
-const ITEMS = [
+interface ISidebarItem {
+  icon: JSX.Element;
+  selectedIcon: JSX.Element;
+  href: string;
+  label: string;
+}
+
+const ITEMS: ISidebarItem[] = [
   {
     icon: <HomeIconSvg className="fill-slate-400" />,
     selectedIcon: (
       <HomeIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
     label: "Inicio",
+    href: "/admin",
   },
   {
     selectedIcon: (
       <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
     icon: <BagIconSvg className="fill-slate-400" />,
-    label: "E-commerce",
+    label: "Orders",
+    href: "/admin/orders",
+  },
+  {
+    selectedIcon: (
+      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+    ),
+    icon: <BagIconSvg className="fill-slate-400" />,
+    label: "Products",
+    href: "/admin/products",
+  },
+  {
+    selectedIcon: (
+      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+    ),
+    icon: <BagIconSvg className="fill-slate-400" />,
+    label: "Configuration",
+    href: "/admin/config",
+  },
+  {
+    selectedIcon: (
+      <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />
+    ),
+    icon: <BagIconSvg className="fill-slate-400" />,
+    label: "Profile",
+    href: "/admin/profile",
   },
 ];
 
@@ -25,6 +59,8 @@ interface Props {
   setShow: (bool: boolean) => void;
 }
 const SideBar: React.FC<Props> = ({ show, setShow }) => {
+  const { pathname } = useRouter();
+
   return (
     <div>
       <div
@@ -43,10 +79,11 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
           {ITEMS.map((item, index) => (
             <SideBarItem
               key={index}
+              href={item.href}
               label={item.label}
               icon={item.icon}
               selectedIcon={item.selectedIcon}
-              selected={index === 0}
+              selected={pathname === item.href}
             />
           ))}
         </div>
@@ -66,6 +103,7 @@ interface ItemProps {
   label: string;
   icon: JSX.Element;
   selectedIcon: JSX.Element;
+  href: string;
 }
 
 const SideBarItem: React.FC<ItemProps> = ({
@@ -73,10 +111,11 @@ const SideBarItem: React.FC<ItemProps> = ({
   icon,
   label,
   selectedIcon,
+  href,
 }) => {
   return (
     <Link
-      href="/"
+      href={href}
       className={`flex rounded-md px-6 py-3 transition-all ${
         selected
           ? "bg-purple-300/40 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300"
