@@ -27,8 +27,8 @@ const ProfileInfoForm = () => {
   console.log(errors);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[250px_1fr]">
-      <div className="w-full shadow-lg mt-4 rounded-xl dark:bg-dark-500 flex items-center justify-center flex-col py-14 lg:py-0">
+    <div className="grid gap-4 xl:grid-cols-[350px_1fr]">
+      <div className="w-full card mt-4 flex items-center justify-center flex-col py-14 xl:py-0  ">
         <ImageInput id="profile" />
         <span className="mt-4 text-sm">
           Allowed *.jpeg, *.jpg, *.png, *.gif
@@ -36,7 +36,7 @@ const ProfileInfoForm = () => {
         <span className="text-sm">Max size of 3.1 MB</span>
       </div>
       <form
-        className="w-full  shadow-lg mt-4 rounded-xl p-6 dark:bg-dark-500"
+        className="w-fullshadow-lg mt-4 card p-6 "
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="grid gap-5 md:grid-cols-2">
@@ -85,7 +85,7 @@ const ProfileInfoForm = () => {
         </div>
 
         <div className="flex justify-end mt-4">
-          <button className="button" type="submit">
+          <button className="button text-sm" type="submit">
             Save Changes
           </button>
         </div>

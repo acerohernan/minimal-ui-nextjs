@@ -1,5 +1,6 @@
 import Link from "next/link";
 import useTranslation from "../../../../i18n/useTranslation";
+import ProfileBilling from "./billing";
 import ProfileInfoForm from "./information";
 
 const AdminProfileView = () => {
@@ -22,7 +23,10 @@ const AdminProfileView = () => {
           <span className="text-sm text-slate-400">{t("Profile")}</span>
         </div>
       </div>
-      <ProfileInfoForm />
+      <div className="grid gap-4">
+        <ProfileInfoForm />
+        <ProfileBilling />
+      </div>
     </div>
   );
 };
