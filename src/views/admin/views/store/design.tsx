@@ -3,7 +3,7 @@ import ImageInput from "../../../../components/form/image";
 const StoreDesign = () => {
   return (
     <div className="w-full card">
-      <div className="mt-4 p-14 grid gap-12 lg:grid-cols-[1fr_2fr] items-start  max-w-4xl mx-auto lg:gap-8">
+      <div className="mt-4 p-6 lg:p-14 grid gap-12 lg:grid-cols-[1fr_2fr] items-start  max-w-4xl mx-auto lg:gap-8">
         <div className=" flex items-center justify-center flex-col">
           <div className="block w-40 text-start label mb-2">Logo</div>
           <ImageInput
@@ -20,7 +20,9 @@ const StoreDesign = () => {
           <span className="text-sm">Max size of 3.1 MB</span>
         </div>
         <div className=" flex items-center justify-center flex-col ">
-          <div className="block w-full text-start label mb-2">Banner</div>
+          <div className="block w-full text-start label mb-2 max-w-lg">
+            Banner
+          </div>
           <ImageInput
             id="Store"
             width={500}
