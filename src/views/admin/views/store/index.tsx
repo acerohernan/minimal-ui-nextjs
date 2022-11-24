@@ -24,9 +24,9 @@ const AdminStoreView = () => {
           <span className="text-sm text-slate-400">{t("Store")}</span>
         </div>
       </div>
-      <div className="grid gap-4 mt-4">
+      <div className="grid gap-4 mt-4 lg:mt-14">
         <StoreDesign />
-        <div className="grid xl:grid-cols-2 gap-4">
+        <div className="grid xl:grid-cols-[2fr_1fr] gap-4">
           <StoreInfoForm />
           <StoreDomain />
         </div>

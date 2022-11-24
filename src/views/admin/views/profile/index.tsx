@@ -23,7 +23,7 @@ const AdminProfileView = () => {
           <span className="text-sm text-slate-400">{t("Profile")}</span>
         </div>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-4 mt-4 lg:mt-14">
         <ProfileInfoForm />
         <ProfileBilling />
       </div>

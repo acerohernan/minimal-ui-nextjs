@@ -15,14 +15,14 @@ const ProfileBilling = () => {
         </div>
         <div className="card p-6 mt-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold block text-slate-600 dark:text-slate-400">
-              Plan
+            <span className="text-xs font-medium  text-slate-600 dark:text-slate-400">
+              PLAN
             </span>
             <span className="text-sm">MiTienda PRO</span>
           </div>
           <div className="flex items-center justify-between mt-4">
-            <span className="text-sm font-semibold block text-slate-600 dark:text-slate-400">
-              Fecha de vencimiento
+            <span className="text-xs font-medium  text-slate-600 dark:text-slate-400">
+              FECHA DE VENCIMIENTO
             </span>
             <span className="text-sm">21/14/20</span>
           </div>

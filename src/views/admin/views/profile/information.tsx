@@ -24,19 +24,23 @@ const ProfileInfoForm = () => {
     console.log(data);
   }
 
-  console.log(errors);
-
   return (
-    <div className="grid gap-4 xl:grid-cols-[350px_1fr]">
-      <div className="w-full card mt-4 flex items-center justify-center flex-col py-14 xl:py-0  ">
-        <ImageInput id="profile" />
+    <div className="grid gap-4">
+      <div className="w-full card flex items-center justify-center flex-col py-14">
+        <ImageInput
+          id="profile"
+          width={180}
+          height={180}
+          rounded="rounded-lg"
+          className="h-40 w-40"
+        />
         <span className="mt-4 text-sm">
           Allowed *.jpeg, *.jpg, *.png, *.gif
         </span>
         <span className="text-sm">Max size of 3.1 MB</span>
       </div>
       <form
-        className="w-fullshadow-lg mt-4 card p-6 "
+        className="w-fullshadow-lg card p-6 "
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="grid gap-5 md:grid-cols-2">

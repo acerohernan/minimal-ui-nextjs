@@ -2,7 +2,7 @@ import TextInput from "../../../../components/form/text";
 
 const StoreDomain = () => {
   return (
-    <div className="card w-full p-6 max-h-60">
+    <div className="card w-full p-6" style={{ maxHeight: "255px" }}>
       <span className="label block mb-2">Edita tu dominio</span>
       <div className="grid grid-cols-[120px_1fr] items-center gap-2 w-full">
         <span className="p-3">mitienda.com/</span>

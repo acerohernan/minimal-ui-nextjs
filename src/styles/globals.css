@@ -36,5 +36,9 @@
 }
 
 .card {
-  @apply border dark:border-slate-700 shadow-lg rounded-xl dark:bg-dark-500 border-slate-200;
+  @apply border dark:border-slate-600 shadow-lg rounded-xl dark:bg-dark-500 border-slate-200;
+}
+
+.section-title {
+  @apply uppercase text-xs font-medium  text-slate-600 dark:text-slate-400;
 }
