@@ -1,12 +1,15 @@
+import useTranslation from "../../../i18n/useTranslation";
+
 const AdminHomeView = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <div>
         <span className="font-medium text-2xl dark:text-white">
-          Administrator
+          {t("Administrator")}
         </span>
-        <div className="flex items-center gap-5 mt-3">
-          <span className="text-sm">Admin</span>
+        <div className="flex items-center gap-5 mt-3 hidden">
+          <span className="text-sm"> {t("Administrator")}</span>
         </div>
       </div>
     </div>
