@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-dark-800 dark:text-slate-400 bg-white;
+    @apply dark:bg-dark-800 dark:text-slate-400 bg-white text-slate-700;
   }
 }
 
@@ -13,5 +13,20 @@
 }
 
 .icon-button {
-  @apply p-2 rounded-full transition-all hover:bg-gray-400/10 dark:hover:bg-gray-700/30 hover:scale-110;
+  @apply p-2 rounded-full transition-all hover:bg-gray-400/10 dark:hover:bg-gray-700/30 hover:scale-110 focus:bg-gray-400/10 dark:focus:bg-gray-700/30 focus:scale-110;
+}
+
+.input {
+  @apply border border-slate-300 dark:border-slate-600 outline-none text-slate-700 hover:border-slate-500 focus:border-slate-500 rounded-lg transition-all  dark:bg-dark-500  dark:hover:border-slate-300 dark:text-slate-300 dark:focus:border-slate-300;
+}
+.label {
+  @apply text-sm font-light text-dark-800 dark:text-slate-400;
+}
+
+.input-error {
+  @apply text-sm text-red-600 font-light dark:text-red-400;
+}
+
+.button {
+  @apply bg-purple-700 text-white text-sm font-medium rounded-md p-2 px-3 hover:bg-purple-900 transition-all hover:shadow-md;
 }

@@ -1,6 +1,8 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { TranslationKey } from "../../../../i18n/types";
+import useTranslation from "../../../../i18n/useTranslation";
 import BagIconSvg from "../icons/bag";
 import CartIconSvg from "../icons/cart";
 import HomeIconSvg from "../icons/home";
@@ -11,7 +13,7 @@ interface ISidebarItem {
   icon: JSX.Element;
   selectedIcon: JSX.Element;
   href: string;
-  label: string;
+  label: TranslationKey;
 }
 
 const ITEMS: ISidebarItem[] = [
@@ -20,7 +22,7 @@ const ITEMS: ISidebarItem[] = [
     selectedIcon: (
       <HomeIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
-    label: "Inicio",
+    label: "Home",
     href: "/admin",
   },
   {
@@ -62,6 +64,7 @@ interface Props {
   setShow: (bool: boolean) => void;
 }
 const SideBar: React.FC<Props> = ({ show, setShow }) => {
+  const { t } = useTranslation();
   const { pathname } = useRouter();
 
   return (
@@ -77,13 +80,13 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
         >
           <XMarkIcon className="icon" />
         </button>
-        <div className="p-4 mt-12 gap-1 grid lg:mt-20">
+        <div className="p-4 mt-12 gap-3 grid lg:mt-20">
           <span className="text-xs font-medium mb-2 block px-6">GENERAL</span>
           {ITEMS.map((item, index) => (
             <SideBarItem
               key={index}
               href={item.href}
-              label={item.label}
+              label={t(item.label)}
               icon={item.icon}
               selectedIcon={item.selectedIcon}
               selected={pathname === item.href}

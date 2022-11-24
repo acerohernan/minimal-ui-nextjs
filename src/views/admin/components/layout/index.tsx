@@ -1,7 +1,7 @@
 import AdminHeader from "../header";
 
 interface Props {
-  children?: JSX.Element | string;
+  children?: JSX.Element | JSX.Element[] | string;
 }
 
 const AdminLayout: React.FC<Props> = ({ children }) => {
