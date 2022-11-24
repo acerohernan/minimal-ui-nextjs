@@ -26,7 +26,7 @@ const ProfileInfoForm = () => {
 
   return (
     <div className="grid gap-4">
-      <div className="w-full card flex items-center justify-center flex-col py-14">
+      <div className="w-full card flex items-center justify-center flex-col p-14">
         <ImageInput
           id="profile"
           width={180}
@@ -34,10 +34,10 @@ const ProfileInfoForm = () => {
           rounded="rounded-lg"
           className="h-40 w-40"
         />
-        <span className="mt-4 text-sm">
-          Allowed *.jpeg, *.jpg, *.png, *.gif
+        <span className="mt-4 text-sm label">
+          {t("Allowed *.jpeg, *.jpg, *.png, *.gif")}
         </span>
-        <span className="text-sm">Max size of 3.1 MB</span>
+        <span className="text-sm label">{t("Max size of 3.1 MB")}</span>
       </div>
       <form
         className="w-fullshadow-lg card p-6 "
@@ -90,7 +90,7 @@ const ProfileInfoForm = () => {
 
         <div className="flex justify-end mt-4">
           <button className="button text-sm" type="submit">
-            Save Changes
+            {t("Save Changes")}
           </button>
         </div>
       </form>

@@ -1,5 +1,7 @@
 import { CameraIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { ChangeEvent, useState } from "react";
+import useTranslation from "../../i18n/useTranslation";
 
 interface Props {
   id: string;
@@ -7,7 +9,6 @@ interface Props {
   width?: number;
   height?: number;
   className?: string;
-  url?: string;
 }
 
 const ImageInput: React.FC<Props> = ({
@@ -16,8 +17,17 @@ const ImageInput: React.FC<Props> = ({
   width,
   rounded,
   className,
-  url,
 }) => {
+  const { t } = useTranslation();
+  const [imgUrl, setImgUrl] = useState<string>("");
+
+  function handleImg(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target?.files && event.target.files[0]) {
+      let file = event.target.files[0];
+      setImgUrl(URL.createObjectURL(file));
+    }
+  }
+
   return (
     <>
       <label
@@ -26,19 +36,19 @@ const ImageInput: React.FC<Props> = ({
         } ${className}`}
         htmlFor={id}
       >
-        {url ? (
+        {imgUrl ? (
           <div
             className={`z-10 bg-black/30 dark:bg-black/50 w-full h-full absolute top-0 left-0 hidden group-hover:flex items-center justify-center flex-col ${
               rounded || "rounded-full"
             } `}
           >
             <CameraIcon className="w-5 h-5 text-white" />
-            <span className="text-white text-sm">Update image</span>
+            <span className="text-white text-sm">{t("Update image")}</span>
           </div>
         ) : null}
-        {url ? (
+        {imgUrl ? (
           <Image
-            src="/avatar.jpg"
+            src={imgUrl}
             alt="profile"
             width={width || 120}
             height={height || 120}
@@ -52,11 +62,11 @@ const ImageInput: React.FC<Props> = ({
           >
             <CameraIcon className="w-5 h-5 dark:text-white z-10" />
             <span className="dark:text-white text-sm z-10">
-              Upload an image
+              {t("Upload an image")}
             </span>
           </div>
         )}
-        <input type="file" className="hidden" id={id} />
+        <input type="file" className="hidden" id={id} onChange={handleImg} />
       </label>
     </>
   );

@@ -10,7 +10,7 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
       <div />
       <div>
         <AdminHeader />
-        <div className="mt-[72px] w-full lg:mt-0 p-6 lg:px-10 max-w-7xl mx-auto pb-20">
+        <div className="mt-[72px] w-full lg:mt-0 p-6 lg:px-10 max-w-7xl mx-auto lg:pb-20">
           {children}
         </div>
       </div>

@@ -41,7 +41,7 @@ const StoreInfoForm = () => {
     <form className="w-full card p-6 " onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-5 md:grid-cols-2">
         <TextInput
-          label={"Store Name"}
+          label={t("Store Name")}
           full={true}
           error={errors.name?.message}
           inputProps={{
@@ -67,7 +67,7 @@ const StoreInfoForm = () => {
           }}
         />
         <div>
-          <label className="label block mb-2">Category</label>
+          <label className="label block mb-2">{t("Category")}</label>
           <Select
             items={CATEGORIES.map((cat) => ({
               component: <>{cat.name}</>,
@@ -78,7 +78,7 @@ const StoreInfoForm = () => {
           />
         </div>
         <TextInput
-          label={"Country"}
+          label={t("Country")}
           full={true}
           error={errors.name?.message}
           inputProps={{
@@ -91,7 +91,7 @@ const StoreInfoForm = () => {
         />
 
         <TextInput
-          label={"Currency"}
+          label={t("Currency")}
           full={true}
           error={errors.currency?.message}
           inputProps={{
@@ -120,7 +120,7 @@ const StoreInfoForm = () => {
 
       <div className="flex justify-end mt-4">
         <button className="button text-sm" type="submit">
-          Save Changes
+          {t("Save Changes")}
         </button>
       </div>
     </form>
