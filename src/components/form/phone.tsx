@@ -42,6 +42,7 @@ const PhoneInput: React.FC<Props> = ({
                 </div>
               ),
             }))}
+            className="p-1"
             selectedOption={{
               value: "54",
               component: (

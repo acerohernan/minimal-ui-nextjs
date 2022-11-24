@@ -1,5 +1,7 @@
 import Link from "next/link";
 import useTranslation from "../../../../i18n/useTranslation";
+import StoreDesign from "./design";
+import StoreDomain from "./domain";
 import StoreInfoForm from "./information";
 
 const AdminStoreView = () => {
@@ -23,7 +25,11 @@ const AdminStoreView = () => {
         </div>
       </div>
       <div className="grid gap-4 mt-4">
-        <StoreInfoForm />
+        <StoreDesign />
+        <div className="grid xl:grid-cols-2 gap-4">
+          <StoreInfoForm />
+          <StoreDomain />
+        </div>
       </div>
     </div>
   );

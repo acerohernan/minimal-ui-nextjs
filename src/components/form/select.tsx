@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
@@ -10,6 +10,7 @@ export interface SelectOption {
 interface Props {
   items: SelectOption[];
   selectedOption?: SelectOption;
+  className?: string;
   optionsContainerClassname?: string;
 }
 
@@ -17,6 +18,7 @@ const Select: React.FC<Props> = ({
   items,
   optionsContainerClassname,
   selectedOption,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption>(() => {
@@ -32,15 +34,19 @@ const Select: React.FC<Props> = ({
   return (
     <div className="relative" ref={clickRef}>
       <button
-        className="p-1 focus:outline-none focus:shadow-outline flex items-center dark:text-slate-300"
+        className={`focus:outline-none focus:shadow-outline flex items-center justify-between dark:text-slate-300 ${className}`}
         type="button"
         onClick={() => setOpen(!open)}
       >
         {selected.component}
-        <ChevronDownIcon className="w-4 h-4 ml-2" />
+        {open ? (
+          <ChevronUpIcon className="w-4 h-4 ml-2" />
+        ) : (
+          <ChevronDownIcon className="w-4 h-4 ml-2" />
+        )}
       </button>
       <div
-        className={`absolute rounded-md bottom-100 shadow-lg bg-white dark:bg-dark-500  ease-in-out duration-300 origin-top-left ${
+        className={`absolute rounded-md bottom-100 shadow-lg bg-white dark:bg-dark-500  ease-in-out duration-300 origin-top-left z-10 ${
           open
             ? "transform opacity-100 scale-100"
             : "transform opacity-0 scale-50"

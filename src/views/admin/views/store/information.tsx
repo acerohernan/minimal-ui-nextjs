@@ -1,14 +1,25 @@
 import { useForm } from "react-hook-form";
-import ImageInput from "../../../../components/form/image";
 import PhoneInput from "../../../../components/form/phone";
+import Select from "../../../../components/form/select";
 import TextInput from "../../../../components/form/text";
 import { onlyNumbersRegex } from "../../../../helpers/regex";
 import useTranslation from "../../../../i18n/useTranslation";
 
+interface StoreCategory {
+  name: string;
+}
+const CATEGORIES: StoreCategory[] = [
+  { name: "Cerezas y Manzanas" },
+  { name: "Pantalones y joggers" },
+  { name: "Instrumentos musicales" },
+];
 interface FormValues {
   name: string;
-  surname: string;
   phone: string;
+  category: string;
+  country: string;
+  currency: string;
+  whatsapp: string;
 }
 
 const StoreInfoForm = () => {
@@ -27,87 +38,92 @@ const StoreInfoForm = () => {
   console.log(errors);
 
   return (
-    <div className="grid gap-4 xl:grid-cols-[350px_1fr]">
-      <div className="w-full card mt-4 flex items-center justify-center flex-col py-14 xl:py-0  ">
-        <ImageInput id="Store" />
-        <span className="mt-4 text-sm">
-          Allowed *.jpeg, *.jpg, *.png, *.gif
-        </span>
-        <span className="text-sm">Max size of 3.1 MB</span>
-      </div>
-      <form
-        className="w-fullshadow-lg mt-4 card p-6 "
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="grid gap-5 md:grid-cols-2">
-          <TextInput
-            label={t("Name")}
-            full={true}
-            error={errors.name?.message}
-            inputProps={{
-              placeholder: "MiTienda",
-              ...register("name", {
-                required: t("This field is required"),
-              }),
-            }}
-          />
-          <PhoneInput
-            label={t("Phone Number")}
-            full={true}
-            error={errors.phone?.message}
-            inputProps={{
-              placeholder: "999113934",
-              ...register("phone", {
-                required: t("This field is required"),
-                pattern: {
-                  value: onlyNumbersRegex,
-                  message: t("Plese enter only numbers"),
-                },
-              }),
-            }}
-          />
-          <TextInput
-            label={"Rubro"}
-            full={true}
-            error={errors.name?.message}
-            inputProps={{
-              placeholder: "MiTienda",
-              ...register("name", {
-                required: t("This field is required"),
-              }),
-            }}
-          />
-          <TextInput
-            label={"País"}
-            full={true}
-            error={errors.name?.message}
-            inputProps={{
-              placeholder: "MiTienda",
-              ...register("name", {
-                required: t("This field is required"),
-              }),
-            }}
-          />
-          <TextInput
-            label={"Moneda"}
-            full={true}
-            error={errors.name?.message}
-            inputProps={{
-              placeholder: "MiTienda",
-              ...register("name", {
-                required: t("This field is required"),
-              }),
-            }}
+    <form className="w-full card p-6 " onSubmit={handleSubmit(onSubmit)}>
+      <div className="grid gap-5 md:grid-cols-2">
+        <TextInput
+          label={"Store Name"}
+          full={true}
+          error={errors.name?.message}
+          inputProps={{
+            placeholder: "MiTienda",
+            ...register("name", {
+              required: t("This field is required"),
+            }),
+          }}
+        />
+        <PhoneInput
+          label={t("Phone Number")}
+          full={true}
+          error={errors.phone?.message}
+          inputProps={{
+            placeholder: "999113934",
+            ...register("phone", {
+              required: t("This field is required"),
+              pattern: {
+                value: onlyNumbersRegex,
+                message: t("Plese enter only numbers"),
+              },
+            }),
+          }}
+        />
+        <div>
+          <label className="label block mb-2">Category</label>
+          <Select
+            items={CATEGORIES.map((cat) => ({
+              component: <>{cat.name}</>,
+              value: cat.name,
+            }))}
+            className="w-full input p-3 z-0"
+            optionsContainerClassname="w-full"
           />
         </div>
+        <TextInput
+          label={"Country"}
+          full={true}
+          error={errors.name?.message}
+          inputProps={{
+            placeholder: "MiTienda",
+            ...register("country", {
+              required: t("This field is required"),
+              value: "Peru",
+            }),
+          }}
+        />
 
-        <div className="flex justify-end mt-4">
-          <button className="button text-sm" type="submit">
-            Save Changes
-          </button>
-        </div>
-      </form>
-    </div>
+        <TextInput
+          label={"Currency"}
+          full={true}
+          error={errors.currency?.message}
+          inputProps={{
+            placeholder: "MiTienda",
+            ...register("currency", {
+              required: t("This field is required"),
+            }),
+          }}
+        />
+        <PhoneInput
+          label={"Whatsapp"}
+          full={true}
+          error={errors.whatsapp?.message}
+          inputProps={{
+            placeholder: "999113934",
+            ...register("whatsapp", {
+              required: t("This field is required"),
+              pattern: {
+                value: onlyNumbersRegex,
+                message: t("Plese enter only numbers"),
+              },
+            }),
+          }}
+        />
+      </div>
+
+      <div className="flex justify-end mt-4">
+        <button className="button text-sm" type="submit">
+          Save Changes
+        </button>
+      </div>
+    </form>
   );
 };
 

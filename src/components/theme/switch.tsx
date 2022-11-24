@@ -13,9 +13,9 @@ const ThemeSwitch = () => {
         onClick={handleTheme}
       >
         {isLight ? (
-          <MoonIcon className="w-8 h-8 text-gray-500 group-hover:scale-110 group-hover:text-gray-600" />
+          <MoonIcon className="w-8 h-8 text-dark-500 group-hover:scale-110" />
         ) : (
-          <SunIcon className="w-8 h-8 text-gray-500 group-hover:scale-110 group-hover:text-gray-300" />
+          <SunIcon className="w-8 h-8 text-white group-hover:scale-1100" />
         )}
       </button>
     </NoSSR>
