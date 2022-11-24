@@ -46,8 +46,8 @@ const ITEMS: ISidebarItem[] = [
       <CartIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
     icon: <CartIconSvg className="fill-slate-400" />,
-    label: "Configuration",
-    href: "/admin/config",
+    label: "Store",
+    href: "/admin/store",
   },
   {
     selectedIcon: (
@@ -70,7 +70,7 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
   return (
     <div>
       <div
-        className={`w-72 h-screen fixed top-0 z-10 ease-in-out duration-300 bg-slate-50 dark:bg-dark-500 dark:lg:bg-dark-800 lg:border-r dark:border-gray-600 border-dashed ${
+        className={`w-72 h-screen fixed top-0 z-30 ease-in-out duration-300 bg-slate-50 dark:bg-dark-500 dark:lg:bg-dark-800 lg:border-r dark:border-gray-600 border-dashed ${
           show ? "-translate-x-0" : "-translate-x-full"
         } lg:-translate-x-full lg:bg-white `}
       >
@@ -97,7 +97,7 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
       <div
         className={`${
           show ? "-translate-x-0" : "-translate-x-full"
-        } fixed  w-full top-0 h-screen bg-dark-500/30 lg:hidden`}
+        } fixed z-20  w-full top-0 h-screen bg-dark-500/30 lg:hidden`}
         onClick={() => setShow(false)}
       />
     </div>
