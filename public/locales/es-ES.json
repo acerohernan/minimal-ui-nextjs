@@ -3,5 +3,12 @@
   "Orders": "Órdenes",
   "Products": "Productos",
   "Configuration": "Configuración",
-  "Profile": "Perfil"
+  "Profile": "Perfil",
+  "Administrator": "Administrador",
+  "Name": "Nombre",
+  "Surname": "Apellido",
+  "Email Address": "Correo Electrónico",
+  "Phone Number": "Número telefónico",
+  "This field is required": "Este campo es obligatorio",
+  "Please enter only numbers": "Ingresa solo números"
 }

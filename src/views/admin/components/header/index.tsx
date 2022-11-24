@@ -85,7 +85,7 @@ const LanguageButton: React.FC = () => {
         />
       </button>
       <div
-        className={`absolute bottom-100 right-0 p-2 grid gap-1 rounded-lg shadow-md ease-in-out duration-300 origin-top-right ${
+        className={`absolute bottom-100 right-0 p-2 grid gap-1 rounded-lg shadow-md ease-in-out duration-300 origin-top-right bg-white dark:bg-dark-500 ${
           open
             ? "transform opacity-100 scale-100"
             : "transform opacity-0 scale-50"

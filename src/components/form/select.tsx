@@ -1,21 +1,29 @@
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 
 export interface SelectOption {
   value: any;
-  label: string;
   component: JSX.Element | JSX.Element[];
 }
 
 interface Props {
   items: SelectOption[];
+  selectedOption?: SelectOption;
   optionsContainerClassname?: string;
 }
 
-const Select: React.FC<Props> = ({ items, optionsContainerClassname }) => {
+const Select: React.FC<Props> = ({
+  items,
+  optionsContainerClassname,
+  selectedOption,
+}) => {
   const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<SelectOption>(() => {
+    if (selectedOption) return selectedOption;
+
+    return items[0];
+  });
 
   const clickRef = useRef(null);
 
@@ -28,14 +36,7 @@ const Select: React.FC<Props> = ({ items, optionsContainerClassname }) => {
         type="button"
         onClick={() => setOpen(!open)}
       >
-        <Image
-          src={`/icons/locales/es-ES.svg`}
-          alt={"es-ES"}
-          width={15}
-          height={15}
-          className="rounded-sm mr-2"
-        />
-        <span>(51)</span>
+        {selected.component}
         <ChevronDownIcon className="w-4 h-4 ml-2" />
       </button>
       <div
@@ -46,10 +47,13 @@ const Select: React.FC<Props> = ({ items, optionsContainerClassname }) => {
         } dark:bg-dark-500 ${optionsContainerClassname}`}
       >
         {items.map((item, i) => {
+          if (item.value === selected.value) return;
+
           return (
             <button
               className="text-start w-full p-3 text-sm hover:bg-gray-400/10 dark:hover:bg-gray-700/30"
               key={i}
+              onClick={() => setSelected(item)}
             >
               {item.component}
             </button>

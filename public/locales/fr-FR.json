@@ -3,5 +3,12 @@
   "Orders": "Ordres",
   "Products": "Des produits",
   "Configuration": "Configuration",
-  "Profile": "Profil"
+  "Profile": "Profil",
+  "Administrator": "Administrateur",
+  "Name": "Nom nom",
+  "Surname": "Nom de famille",
+  "Email Address": "Adresse e-mail",
+  "Phone Number": "Numéro de téléphone",
+  "This field is required": "Ce champ est obligatoire",
+  "Please enter only numbers": "Veuillez saisir uniquement des chiffres"
 }

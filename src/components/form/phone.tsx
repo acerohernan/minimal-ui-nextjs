@@ -28,13 +28,12 @@ const PhoneInput: React.FC<Props> = ({
         <span className="absolute inset-y-0 left-0 flex items-center px-2">
           <Select
             items={PREFIXES.map((prefix) => ({
-              label: `(${prefix.prefix}) ${prefix.country} `,
               value: prefix.prefix,
               component: (
                 <div className="flex items-center">
                   <Image
                     src={`/icons/countries/${prefix.country_code}.svg`}
-                    alt={"es-ES"}
+                    alt={prefix.country_code}
                     width={15}
                     height={15}
                     className="rounded-sm mr-2"
@@ -43,6 +42,21 @@ const PhoneInput: React.FC<Props> = ({
                 </div>
               ),
             }))}
+            selectedOption={{
+              value: "54",
+              component: (
+                <div className="flex items-center">
+                  <Image
+                    src={`/icons/countries/${"AR"}.svg`}
+                    alt={"AR"}
+                    width={15}
+                    height={15}
+                    className="rounded-sm mr-2"
+                  />
+                  <span>({"54"})</span>
+                </div>
+              ),
+            }}
             optionsContainerClassname="w-20"
           />
         </span>

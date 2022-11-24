@@ -3,5 +3,12 @@
   "Orders": "Orders",
   "Products": "Products",
   "Configuration": "Configuration",
-  "Profile": "Profile"
+  "Profile": "Profile",
+  "Admin": "Admin",
+  "Name": "Name",
+  "Surname": "Surname",
+  "Email Address": "Email Address",
+  "Phone Number": "Phone Number",
+  "This field is required": "This field is required",
+  "Plese enter only numbers": "Plese enter only numbers"
 }
