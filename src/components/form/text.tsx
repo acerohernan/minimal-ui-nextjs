@@ -4,6 +4,7 @@ interface Props {
   error?: string;
   inputProps?: Object;
   className?: string;
+  optional?: boolean;
 }
 
 const TextInput: React.FC<Props> = ({
@@ -12,12 +13,14 @@ const TextInput: React.FC<Props> = ({
   label,
   error,
   inputProps,
+  optional,
 }) => {
   return (
     <div>
       {label ? (
         <label htmlFor="name" className="label mb-2 inline-block">
           {label}
+          {!optional && " *"}
         </label>
       ) : null}
       <input

@@ -50,8 +50,8 @@ const ImageInput: React.FC<Props> = ({
           <Image
             src={imgUrl}
             alt="profile"
-            width={width || 120}
-            height={height || 120}
+            width={width || 500}
+            height={height || 500}
             className={`${
               rounded || "rounded-full"
             } w-full h-full object-cover`}

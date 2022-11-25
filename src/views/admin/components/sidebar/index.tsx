@@ -89,7 +89,11 @@ const SideBar: React.FC<Props> = ({ show, setShow }) => {
               label={t(item.label)}
               icon={item.icon}
               selectedIcon={item.selectedIcon}
-              selected={pathname === item.href}
+              selected={
+                item.href === "/admin"
+                  ? pathname === item.href
+                  : pathname.includes(item.href)
+              }
             />
           ))}
         </div>

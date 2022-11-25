@@ -25,7 +25,7 @@ const AdminProductsView = () => {
           <span className="text-sm text-slate-400">{t("Products")}</span>
         </div>
       </div>
-      <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+      <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
         <ProductCard />
         <ProductCard />
         <ProductCard />
