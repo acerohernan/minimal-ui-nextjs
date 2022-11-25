@@ -46,7 +46,7 @@ const Select: React.FC<Props> = ({
         )}
       </button>
       <div
-        className={`absolute rounded-md bottom-100 shadow-lg bg-white dark:bg-dark-500  ease-in-out duration-300 origin-top-left z-10 ${
+        className={`absolute rounded-md bottom-100 shadow-lg bg-white dark:bg-dark-500  ease-in-out duration-300 origin-top z-10 ${
           open
             ? "transform opacity-100 scale-100"
             : "transform opacity-0 scale-50"

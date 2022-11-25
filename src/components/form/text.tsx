@@ -5,6 +5,7 @@ interface Props {
   inputProps?: Object;
   className?: string;
   optional?: boolean;
+  textarea?: boolean;
 }
 
 const TextInput: React.FC<Props> = ({
@@ -14,6 +15,7 @@ const TextInput: React.FC<Props> = ({
   error,
   inputProps,
   optional,
+  textarea,
 }) => {
   return (
     <div>
@@ -23,12 +25,21 @@ const TextInput: React.FC<Props> = ({
           {!optional && " *"}
         </label>
       ) : null}
-      <input
-        id="name"
-        className={`input p-3 ${className} ${full && "w-full"}`}
-        type="text"
-        {...inputProps}
-      />
+      {!textarea && (
+        <input
+          id="name"
+          className={`input p-3 ${className} ${full && "w-full"}`}
+          type="text"
+          {...inputProps}
+        />
+      )}
+      {textarea && (
+        <textarea
+          id="name"
+          className={`input p-3 ${className} ${full && "w-full"}`}
+          {...inputProps}
+        />
+      )}
       {error ? (
         <span className="input-error mt-2 inline-block">{error}</span>
       ) : null}

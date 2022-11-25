@@ -1,10 +1,19 @@
 import Link from "next/link";
+import { useState } from "react";
+import Checkbox from "../../../../components/form/checkbox";
 import ImageInput from "../../../../components/form/image";
+import Select from "../../../../components/form/select";
 import TextInput from "../../../../components/form/text";
 import useTranslation from "../../../../i18n/useTranslation";
+import ProductVariantForm from "./variantForm";
 
 const AdminProductsCreate = () => {
   const { t } = useTranslation();
+  const [hasVariants, setHasVariants] = useState(true);
+
+  function handleVariants() {
+    setHasVariants(!hasVariants);
+  }
 
   return (
     <div>
@@ -35,14 +44,56 @@ const AdminProductsCreate = () => {
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <TextInput full label="Name" />
           <TextInput full label="SKU" optional />
-          <TextInput full label="Description" />
+          <div className="lg:col-span-2">
+            <TextInput
+              full
+              label="Description"
+              textarea
+              optional
+              inputProps={{
+                rows: 5,
+              }}
+            />
+          </div>
           <TextInput full label="Full Price" />
           <TextInput full label="Offer Price" />
           <TextInput full label="Stock" />
-          <TextInput full label="Category" />
-          <TextInput full label="Variants" />
+          <div>
+            <label className="block mb-2 label">Category</label>
+            <Select
+              items={[
+                {
+                  value: "Category1",
+                  component: <>Category1</>,
+                },
+                {
+                  value: "Category2",
+                  component: <>Category2</>,
+                },
+              ]}
+              className="input p-3 w-full"
+              optionsContainerClassname="w-full"
+            />
+          </div>
+          <div className="lg:col-span-2 mt-4">
+            <span className="label block mb-2">Variantes</span>
+            <div className="flex items-center">
+              <Checkbox checked={hasVariants} />
+              <label
+                className="font-light text-sm ml-2 cursor-pointer"
+                onClick={handleVariants}
+              >
+                Este producto tiene variantes
+              </label>
+            </div>
+            {hasVariants && (
+              <div>
+                <ProductVariantForm />
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end">
           <button className="button text-sm" type="submit">
             {"Add Product"}
           </button>

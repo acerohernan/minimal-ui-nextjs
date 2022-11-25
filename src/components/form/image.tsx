@@ -32,8 +32,8 @@ const ImageInput: React.FC<Props> = ({
     <>
       <label
         className={`p-2 border border-dashed inline-block border-slate-400 relative group cursor-pointer ${
-          rounded || "rounded-full"
-        } ${className}`}
+          !imgUrl && "bg-slate-50 dark:bg-gray-700"
+        } ${rounded || "rounded-full"} ${className}`}
         htmlFor={id}
       >
         {imgUrl ? (
