@@ -1,9 +1,12 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useState } from "react";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductCard from "./card";
 
 const AdminProductsView = () => {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
 
   return (
     <div>
@@ -22,7 +25,7 @@ const AdminProductsView = () => {
           <span className="text-sm text-slate-400">{t("Products")}</span>
         </div>
       </div>
-      <div className="card w-full mt-4 lg:mt-14 grid grid-cols-2 gap-4 p-4">
+      <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
         <ProductCard />
         <ProductCard />
         <ProductCard />
@@ -31,6 +34,23 @@ const AdminProductsView = () => {
         <ProductCard />
         <ProductCard />
         <ProductCard />
+      </div>
+      <div className="card w-48 h-16 mx-auto mt-6 flex items-center justify-center">
+        <button
+          className="icon-button"
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+        >
+          <ChevronLeftIcon className="icon" />
+        </button>
+        <span className="block mx-7">{page}</span>
+        <button
+          className="icon-button"
+          disabled={page === 9}
+          onClick={() => setPage(page + 1)}
+        >
+          <ChevronRightIcon className="icon" />
+        </button>
       </div>
     </div>
   );
