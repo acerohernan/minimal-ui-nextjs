@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useState } from "react";
 import useTranslation from "../../../../i18n/useTranslation";
-import ProductCard from "./card";
+import ProductCard from "./components/card";
 
 const AdminProductsView = () => {
   const { t } = useTranslation();

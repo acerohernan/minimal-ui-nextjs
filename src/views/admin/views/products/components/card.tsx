@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Switch from "../../../../components/form/switch";
+import Switch from "../../../../../components/form/switch";
 
 const ProductCard = () => {
   return (

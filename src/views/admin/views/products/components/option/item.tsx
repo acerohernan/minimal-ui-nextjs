@@ -2,7 +2,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { CheckIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import TextInput from "../../../../../components/form/text";
+import TextInput from "../../../../../../components/form/text";
 
 interface Props {}
 
@@ -12,7 +12,7 @@ interface OptionValues {
 }
 
 const OptionItem: React.FC<Props> = () => {
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(true);
 
   const {
     register,
@@ -37,7 +37,7 @@ const OptionItem: React.FC<Props> = () => {
               full
               error={errors.name?.message}
               inputProps={{
-                placeholder: "S",
+                placeholder: "Rojo",
                 ...register("name", {
                   required: "Requerido",
                 }),
@@ -85,15 +85,3 @@ const OptionItem: React.FC<Props> = () => {
 };
 
 export default OptionItem;
-
-export const OptionForm = () => {
-  return (
-    <div className="grid grid-cols-[2fr_1fr_50px] lg:grid-cols-[3fr_1fr_50px] items-center gap-4">
-      <TextInput full inputProps={{ placeholder: "XL" }} />
-      <TextInput full inputProps={{ placeholder: "$ 7.00" }} />
-      <button className="input p-3 flex justify-center" type="button">
-        <CheckIcon className="w-5 h-5" />
-      </button>
-    </div>
-  );
-};

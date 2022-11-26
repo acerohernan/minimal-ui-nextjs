@@ -5,7 +5,6 @@ import Select from "../../../../components/form/select";
 import TextInput from "../../../../components/form/text";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductVariantModal from "./components/variantModal";
-import ProductVariantForm from "./variantForm";
 
 const AdminProductsCreate = () => {
   const { t } = useTranslation();
@@ -84,11 +83,6 @@ const AdminProductsCreate = () => {
             >
               + Agregar variante
             </button>
-            {hasVariants && (
-              <div>
-                <ProductVariantForm />
-              </div>
-            )}
           </div>
         </div>
         <div className="flex justify-end">

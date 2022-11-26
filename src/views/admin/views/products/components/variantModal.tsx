@@ -1,11 +1,13 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Checkbox from "../../../../../components/form/checkbox";
 import Switch from "../../../../../components/form/switch";
 import TextInput from "../../../../../components/form/text";
 import useTranslation from "../../../../../i18n/useTranslation";
-import OptionItem from "./option";
+import OptionForm, { OptionFormValues } from "./option/form";
+import OptionItem from "./option/item";
 
 interface IOption {
   name: string;
@@ -34,43 +36,20 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
   } = useForm<IProductVariant>();
   const { t } = useTranslation();
 
+  const [options, setOptions] = useState<Record<string, OptionFormValues>>({});
+
   const mandatory_value = watch("mandatory");
   const options_to_choose_value = watch("options_to_choose");
-
-  const [options, setOptions] = useState<IOption[]>([
-    {
-      name: "",
-      price: "",
-    },
-    {
-      name: "",
-      price: "",
-    },
-  ]);
-
-  function handleAddOption() {
-    setOptions([
-      ...options,
-      {
-        name: "",
-        price: "",
-      },
-    ]);
-  }
 
   function onSubmit(data: IProductVariant) {
     if (data.options_to_choose < 1) data.options_to_choose = 1;
 
-    for (const option of options) {
-      console.log(option);
-    }
-
     console.log(data);
   }
 
-  function validateVaraiantOption(option: IOption): boolean {
-    if (option.name && option.price) return true;
-    return false;
+  function handleSaveOption(data: OptionFormValues) {
+    const id = nanoid();
+    setOptions({ ...options, id: data });
   }
 
   useEffect(() => {
@@ -92,7 +71,7 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
               <TextInput
                 full
                 inputProps={{
-                  placeholder: "Talla",
+                  placeholder: "Color",
                   ...register("name", {
                     required: t("This field is required"),
                   }),
@@ -168,14 +147,16 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
               {/* {options.map((opt, i) => (
                 <OptionItem key={i} />
               ))} */}
-              <OptionItem />
+              {Object.values(options).map((opt, i) => (
+                <OptionItem key={i} />
+              ))}
+              <OptionForm onSave={handleSaveOption} />
             </div>
             <span className="text-sm font-light block mt-2">
               El precio que ingreses se sumará al valor base del producto.
             </span>
             <button
               className="mt-4 text-purple-800 dark:text-purple-400 hover:underline text-sm"
-              onClick={handleAddOption}
               type="button"
             >
               + Agregar opción
