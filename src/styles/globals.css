@@ -36,10 +36,33 @@
   dark:border-purple-500 dark:text-purple-500;
 }
 
+.button-outline-danger {
+  @apply border-red-700 border text-red-800 font-medium rounded-lg p-2 px-3 hover:bg-red-50 transition-all hover:shadow-md
+  dark:border-red-500 dark:text-red-500;
+}
+
 .card {
   @apply border dark:border-slate-600 shadow-lg rounded-xl dark:bg-dark-500 border-slate-200;
 }
 
 .section-title {
   @apply uppercase text-xs font-medium  text-slate-600 dark:text-slate-400;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  display: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #bbbbbbc7;
+  border-radius: 100vh;
+}
+
+.hide-page {
+  max-height: calc(100vh - 180px);
+  overflow: hidden;
 }

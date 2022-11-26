@@ -5,18 +5,20 @@ import ImageInput from "../../../../components/form/image";
 import Select from "../../../../components/form/select";
 import TextInput from "../../../../components/form/text";
 import useTranslation from "../../../../i18n/useTranslation";
+import ProductVariantModal from "./components/variantModal";
 import ProductVariantForm from "./variantForm";
 
 const AdminProductsCreate = () => {
   const { t } = useTranslation();
-  const [hasVariants, setHasVariants] = useState(true);
+  const [hasVariants, setHasVariants] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   function handleVariants() {
     setHasVariants(!hasVariants);
   }
 
   return (
-    <div>
+    <div className={openModal ? "hide-page" : ""}>
       <div>
         <span className="font-medium text-2xl dark:text-white">
           {t("Products")}
@@ -86,6 +88,12 @@ const AdminProductsCreate = () => {
                 Este producto tiene variantes
               </label>
             </div>
+            <button
+              className="text-sm hover:underline text-purple-800 dark:text-purple-400 mt-4"
+              onClick={() => setOpenModal(true)}
+            >
+              + Agregar variante
+            </button>
             {hasVariants && (
               <div>
                 <ProductVariantForm />
@@ -99,6 +107,10 @@ const AdminProductsCreate = () => {
           </button>
         </div>
       </div>
+      <ProductVariantModal
+        open={openModal}
+        handleClose={() => setOpenModal(false)}
+      />
     </div>
   );
 };

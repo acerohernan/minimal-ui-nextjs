@@ -116,7 +116,7 @@ const ProductVariantForm = () => {
               El precio que ingreses se sumará al valor base del producto.
             </span>
             <button
-              className="mt-4 text-purple-800 hover:underline text-sm"
+              className="mt-4 text-purple-800 dark:text-purple-400 hover:underline text-sm"
               onClick={handleAddOption}
             >
               + Agregar opción
