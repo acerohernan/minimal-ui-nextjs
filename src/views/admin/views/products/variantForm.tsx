@@ -1,9 +1,11 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Checkbox from "../../../../components/form/checkbox";
 import Switch from "../../../../components/form/switch";
 import TextInput from "../../../../components/form/text";
-import OptionItem from "./components/option";
+import useTranslation from "../../../../i18n/useTranslation";
+import OptionItem, { OptionForm } from "./components/option";
 
 interface IOption {
   name: string;
@@ -11,7 +13,25 @@ interface IOption {
   visible: boolean;
 }
 
+interface IProductVariant {
+  name: string;
+  mandatory: boolean;
+  options_to_choose: number;
+  options: Array<IOption>;
+}
+
 const ProductVariantForm = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<IProductVariant>();
+  const { t } = useTranslation();
+
+  const mandatory_value = watch("mandatory");
+
   const [numOptions, setNumOptions] = useState(1);
   const [options, setOptions] = useState<IOption[]>([
     {
@@ -38,25 +58,38 @@ const ProductVariantForm = () => {
   }
 
   return (
-    <div className="grid gap-6">
-      <div>
-        <label className="label block mb-2">Nombre de la variante *</label>
-        <div className="grid grid-cols-[1fr_50px] gap-4 items-center">
-          <TextInput full inputProps={{ placeholder: "Talla" }} />
-          <button className="input p-3 flex justify-center">
-            <XMarkIcon className="w-5 h-5" />
-          </button>
+    <form className="absolute overflow-y-auto top-0 bottom-0 left-0 right-0 m-auto lg:my-10 card max-w-xl bg-white p-6 sm:p-8 scrollbar grid grid-rows-[1fr_60px]">
+      <div className="flex flex-col gap-6">
+        <div>
+          <label className="label block mb-2">Nombre de la variante *</label>
+          <div className="grid grid-cols-[1fr_50px] gap-4 items-center">
+            <TextInput
+              full
+              inputProps={{
+                placeholder: "Talla",
+                ...register("name", {
+                  required: t("This field is required"),
+                }),
+              }}
+            />
+            <button className="input p-3 flex justify-center">
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          </div>
+          {errors.name ? (
+            <span className="block input-error">{errors.name.message}</span>
+          ) : null}
+          <span className="font-light text-sm block mt-2">
+            Recomendamos utilizar solo 1 palabra. Ej.: Color, Talla, etc.
+          </span>
         </div>
 
-        <span className="font-light text-sm block mt-2">
-          Recomendamos utilizar solo 1 palabra. Ej.: Color, Talla, etc.
-        </span>
-      </div>
-
-      <>
         <div>
           <div className="flex items-center">
-            <Switch className="z-10" />
+            <Switch
+              className="z-10"
+              onChange={() => setValue("mandatory", !Boolean(mandatory_value))}
+            />
             <span className="label block ml-2">Obligatorio</span>
           </div>
           <span className="font-light text-sm block mt-2">
@@ -98,6 +131,7 @@ const ProductVariantForm = () => {
             {options.map((opt, i) => (
               <OptionItem key={i} />
             ))}
+            <OptionForm />
           </div>
           <span className="text-sm font-light block mt-2">
             El precio que ingreses se sumará al valor base del producto.
@@ -109,8 +143,15 @@ const ProductVariantForm = () => {
             + Agregar opción
           </button>
         </div>
-      </>
-    </div>
+      </div>
+
+      <div className="flex gap-4 pt-6">
+        <button className="text-sm button-outline w-full">Volver</button>
+        <button className="text-sm button w-full" type="submit">
+          Añadir Variante
+        </button>
+      </div>
+    </form>
   );
 };
 
