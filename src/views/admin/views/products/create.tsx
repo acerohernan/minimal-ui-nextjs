@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useState } from "react";
-import Checkbox from "../../../../components/form/checkbox";
 import ImageInput from "../../../../components/form/image";
 import Select from "../../../../components/form/select";
 import TextInput from "../../../../components/form/text";
@@ -79,17 +78,8 @@ const AdminProductsCreate = () => {
           </div>
           <div className="lg:col-span-2 mt-4">
             <span className="label block mb-2">Variantes</span>
-            <div className="flex items-center">
-              <Checkbox checked={hasVariants} />
-              <label
-                className="font-light text-sm ml-2 cursor-pointer"
-                onClick={handleVariants}
-              >
-                Este producto tiene variantes
-              </label>
-            </div>
             <button
-              className="text-sm hover:underline text-purple-800 dark:text-purple-400 mt-4"
+              className="text-sm font-medium hover:underline text-purple-800 dark:text-purple-400 mt-2"
               onClick={() => setOpenModal(true)}
             >
               + Agregar variante

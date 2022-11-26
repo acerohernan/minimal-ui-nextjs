@@ -1,4 +1,4 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import TextInput from "../../../../../components/form/text";
 
@@ -11,12 +11,11 @@ const OptionItem: React.FC<Props> = () => {
     <div className="grid grid-cols-[2fr_1fr_50px]  lg:grid-cols-[3fr_1fr_50px] items-center gap-4">
       <TextInput full inputProps={{ placeholder: "XL" }} />
       <TextInput full inputProps={{ placeholder: "$ 7.00" }} />
-      <button className="input p-3" onClick={() => setOpen(!open)}>
-        {open ? (
-          <EyeSlashIcon className="w-6 h-6" />
-        ) : (
-          <EyeIcon className="w-6 h-6" />
-        )}
+      <button
+        className="input p-3 flex justify-center"
+        onClick={() => setOpen(!open)}
+      >
+        <XMarkIcon className="w-5 h-5" />
       </button>
     </div>
   );
