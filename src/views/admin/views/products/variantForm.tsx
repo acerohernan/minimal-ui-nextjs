@@ -43,7 +43,7 @@ const ProductVariantForm = () => {
   }
 
   return (
-    <div className="grid gap-6 py-6">
+    <div className="grid gap-6">
       <div>
         <label className="label block mb-2">Nombre de la variante *</label>
         <div className="grid grid-cols-[1fr_50px] gap-4 items-center">
