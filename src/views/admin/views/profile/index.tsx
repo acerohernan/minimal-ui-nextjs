@@ -1,9 +1,21 @@
 import Link from "next/link";
+import useSWR from "swr";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProfileBilling from "./billing";
+import { useProfileContext } from "./context";
 import ProfileInfoForm from "./information";
+import ProfilePageSkeleton from "./skeleton";
 
 const AdminProfileView = () => {
+  const {
+    actions: { getInformation },
+    state: { tenant },
+  } = useProfileContext();
+  const { isValidating: isLoading } = useSWR(
+    "tenant/information",
+    getInformation
+  );
+
   const { t } = useTranslation();
 
   return (
@@ -23,10 +35,13 @@ const AdminProfileView = () => {
           <span className="text-sm text-slate-400">{t("Profile")}</span>
         </div>
       </div>
-      <div className="grid gap-4 mt-4 lg:mt-14">
-        <ProfileInfoForm />
-        <ProfileBilling />
-      </div>
+      {tenant ? (
+        <div className="grid gap-4 mt-4 lg:mt-14">
+          <ProfileInfoForm />
+          <ProfileBilling />
+        </div>
+      ) : null}
+      {isLoading && <ProfilePageSkeleton />}
     </div>
   );
 };
