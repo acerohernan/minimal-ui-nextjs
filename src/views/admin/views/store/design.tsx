@@ -15,6 +15,7 @@ const StoreDesign = () => {
             height={160}
             className="h-40 w-40"
             rounded="rounded-lg"
+            onChange={(file) => {}}
           />
           <span className="mt-4 text-sm text-center label">
             {t("Allowed *.jpeg, *.jpg, *.png, *.gif")}
@@ -31,6 +32,7 @@ const StoreDesign = () => {
             height={160}
             className="h-24 sm:h-40 w-full max-w-lg"
             rounded="rounded-lg"
+            onChange={(file) => {}}
           />
           <span className="mt-4 text-sm label">
             {t("Recommended (1000x300)")}

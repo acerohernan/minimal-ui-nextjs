@@ -1,3 +1,5 @@
+import { TenantUpdateInformationForm } from "../../../../../api/tenant/types";
+
 export interface IPorfileContext {
   state: IProfileState;
   actions: IProfileActions;
@@ -9,6 +11,8 @@ export interface IProfileState {
 
 export interface IProfileActions {
   getInformation: () => void;
+  updateInformation: (form: TenantUpdateInformationForm) => Promise<void>;
+  uploadImage: (img: File) => Promise<{ url: string | null }>;
 }
 
 export interface ITenant {
@@ -18,7 +22,8 @@ export interface ITenant {
   expiration_date: Date;
   email: string;
   phone: string;
-  name: string;
-  surname: string;
+  name: string | null;
+  surname: string | null;
   country: string;
+  profile_img: string | null;
 }

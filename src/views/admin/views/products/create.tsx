@@ -40,6 +40,7 @@ const AdminProductsCreate = () => {
           id="product"
           className="mt-2 h-52 w-52"
           rounded="rounded-lg"
+          onChange={(file) => {}}
         />
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <TextInput full label="Name" />
@@ -61,6 +62,7 @@ const AdminProductsCreate = () => {
           <div>
             <label className="block mb-2 label">Category</label>
             <Select
+              onChange={(opt) => {}}
               items={[
                 {
                   value: "Category1",

@@ -1,32 +1,55 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { TenantUpdateInformationForm } from "../../../../../api/tenant/types";
 import ImageInput from "../../../../../components/form/image";
 import PhoneInput from "../../../../../components/form/phone";
 import TextInput from "../../../../../components/form/text";
+import { getPrefixFromPhoneNumber } from "../../../../../helpers/phone";
 import { onlyNumbersRegex } from "../../../../../helpers/regex";
 import useTranslation from "../../../../../i18n/useTranslation";
 import { useProfileContext } from "../context";
-
-interface FormValues {
-  name: string;
-  surname: string;
-  phone: string;
-}
 
 const ProfileInfoForm = () => {
   const { t } = useTranslation();
   const {
     state: { tenant },
+    actions: { updateInformation, uploadImage },
   } = useProfileContext();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<TenantUpdateInformationForm>();
 
-  async function onSubmit(data: FormValues) {
-    console.log(data);
+  const [loading, setLoading] = useState(false);
+  const [phonePrefix, setPhonePrefix] = useState<string>(() =>
+    getPrefixFromPhoneNumber(tenant?.phone || "")
+  );
+  const [profileImg, setProfileImg] = useState<File | null>(null);
+
+  async function onSubmit(data: TenantUpdateInformationForm) {
+    /* Setting the prefix with the phone */
+    data.phone = `${phonePrefix}${data.phone}`;
+
+    /* Uploading the profile img */
+    if (profileImg) {
+      const { url } = await uploadImage(profileImg);
+
+      if (url) data.profile_img = url;
+    }
+
+    setLoading(true);
+    await updateInformation(data);
+    setLoading(false);
   }
+
+  useEffect(() => {
+    const prefix = getPrefixFromPhoneNumber(tenant?.phone || "");
+    const phone = tenant?.phone.replace(prefix, "");
+    setValue("phone", phone || "");
+  }, []);
 
   return (
     <div className="grid gap-4">
@@ -35,8 +58,10 @@ const ProfileInfoForm = () => {
           id="profile"
           width={180}
           height={180}
+          defaultUrl={tenant?.profile_img || ""}
           rounded="rounded-lg"
           className="h-40 w-40"
+          onChange={(file) => setProfileImg(file)}
         />
         <span className="mt-4 text-sm label">
           {t("Allowed *.jpeg, *.jpg, *.png, *.gif")}
@@ -56,7 +81,7 @@ const ProfileInfoForm = () => {
               placeholder: "MiTienda",
               ...register("name", {
                 required: t("This field is required"),
-                value: tenant?.name,
+                value: tenant?.name || "",
               }),
             }}
           />
@@ -68,7 +93,7 @@ const ProfileInfoForm = () => {
               placeholder: "MiTienda",
               ...register("surname", {
                 required: t("This field is required"),
-                value: tenant?.surname,
+                value: tenant?.surname || "",
               }),
             }}
           />
@@ -85,6 +110,10 @@ const ProfileInfoForm = () => {
             label={t("Phone Number")}
             full={true}
             error={errors.phone?.message}
+            onPrefixChange={(prefix) => {
+              setPhonePrefix(prefix);
+            }}
+            defaultPrefix={phonePrefix}
             inputProps={{
               placeholder: "999113934",
               ...register("phone", {
@@ -93,14 +122,13 @@ const ProfileInfoForm = () => {
                   value: onlyNumbersRegex,
                   message: t("Plese enter only numbers"),
                 },
-                value: tenant?.phone,
               }),
             }}
           />
         </div>
 
         <div className="flex justify-end mt-4">
-          <button className="button text-sm" type="submit">
+          <button className="button text-sm" type="submit" disabled={loading}>
             {t("Save Changes")}
           </button>
         </div>

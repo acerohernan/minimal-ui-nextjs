@@ -9,6 +9,8 @@ interface Props {
   width?: number;
   height?: number;
   className?: string;
+  defaultUrl?: string;
+  onChange: (file: File) => void;
 }
 
 const ImageInput: React.FC<Props> = ({
@@ -17,14 +19,17 @@ const ImageInput: React.FC<Props> = ({
   width,
   rounded,
   className,
+  defaultUrl,
+  onChange,
 }) => {
   const { t } = useTranslation();
-  const [imgUrl, setImgUrl] = useState<string>("");
+  const [imgUrl, setImgUrl] = useState<string>(defaultUrl || "");
 
   function handleImg(event: ChangeEvent<HTMLInputElement>) {
     if (event.target?.files && event.target.files[0]) {
       let file = event.target.files[0];
       setImgUrl(URL.createObjectURL(file));
+      onChange(file);
     }
   }
 
@@ -66,7 +71,13 @@ const ImageInput: React.FC<Props> = ({
             </span>
           </div>
         )}
-        <input type="file" className="hidden" id={id} onChange={handleImg} />
+        <input
+          type="file"
+          className="hidden"
+          accept="image/*"
+          id={id}
+          onChange={handleImg}
+        />
       </label>
     </>
   );

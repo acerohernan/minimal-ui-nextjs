@@ -12,6 +12,7 @@ interface Props {
   selectedOption?: SelectOption;
   className?: string;
   optionsContainerClassname?: string;
+  onChange: (option: SelectOption) => void;
 }
 
 const Select: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const Select: React.FC<Props> = ({
   optionsContainerClassname,
   selectedOption,
   className,
+  onChange,
 }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<SelectOption>(() => {
@@ -30,6 +32,11 @@ const Select: React.FC<Props> = ({
   const clickRef = useRef(null);
 
   useClickOutside({ ref: clickRef, callback: () => setOpen(false) });
+
+  function handleChange(option: SelectOption) {
+    onChange(option);
+    setSelected(option);
+  }
 
   return (
     <div className="relative" ref={clickRef}>
@@ -59,7 +66,7 @@ const Select: React.FC<Props> = ({
             <button
               className="text-start w-full p-3 text-sm hover:bg-gray-400/10 dark:hover:bg-gray-700/30"
               key={i}
-              onClick={() => setSelected(item)}
+              onClick={() => handleChange(item)}
             >
               {item.component}
             </button>

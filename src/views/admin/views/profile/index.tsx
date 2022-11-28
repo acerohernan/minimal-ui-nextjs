@@ -1,5 +1,5 @@
 import Link from "next/link";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProfileBilling from "./components/billing";
 import ProfileInfoForm from "./components/information";
@@ -11,7 +11,7 @@ const AdminProfileView = () => {
     actions: { getInformation },
     state: { tenant },
   } = useProfileContext();
-  const { isValidating: isLoading } = useSWR(
+  const { isValidating: isLoading } = useSWRImmutable(
     "tenant/information",
     getInformation
   );

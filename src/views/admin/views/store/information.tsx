@@ -55,6 +55,7 @@ const StoreInfoForm = () => {
           label={t("Phone Number")}
           full={true}
           error={errors.phone?.message}
+          onPrefixChange={(prefix) => {}}
           inputProps={{
             placeholder: "999113934",
             ...register("phone", {
@@ -73,6 +74,7 @@ const StoreInfoForm = () => {
               component: <>{cat.name}</>,
               value: cat.name,
             }))}
+            onChange={(opt) => {}}
             className="w-full input p-3 z-0"
             optionsContainerClassname="w-full"
           />
@@ -105,6 +107,7 @@ const StoreInfoForm = () => {
           label={"Whatsapp"}
           full={true}
           error={errors.whatsapp?.message}
+          onPrefixChange={(prefix) => {}}
           inputProps={{
             placeholder: "999113934",
             ...register("whatsapp", {

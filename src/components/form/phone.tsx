@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { PREFIXES } from "../../constants/number";
-import Select from "./select";
+import { useState } from "react";
+import { COUNTRIES, IPrefix, prefixes } from "../../constants/countries";
+import Select, { SelectOption } from "./select";
 
 interface Props {
   label?: string;
@@ -8,6 +9,8 @@ interface Props {
   error?: string;
   inputProps?: Object;
   className?: string;
+  defaultPrefix?: string;
+  onPrefixChange: (prefix: string) => void;
 }
 
 const PhoneInput: React.FC<Props> = ({
@@ -16,7 +19,23 @@ const PhoneInput: React.FC<Props> = ({
   label,
   error,
   inputProps,
+  defaultPrefix,
+  onPrefixChange,
 }) => {
+  const [selectedPrefix, setSelectedPrefix] = useState<IPrefix>(() => {
+    let prefix = prefixes["1"];
+
+    if (defaultPrefix && prefixes[defaultPrefix]) {
+      prefix = prefixes[defaultPrefix];
+    }
+
+    return prefix;
+  });
+
+  function handlePrefixChange(option: SelectOption) {
+    onPrefixChange(option.value);
+  }
+
   return (
     <div>
       {label ? (
@@ -27,34 +46,35 @@ const PhoneInput: React.FC<Props> = ({
       <div className="relative">
         <span className="absolute inset-y-0 left-0 flex items-center px-2">
           <Select
-            items={PREFIXES.map((prefix) => ({
-              value: prefix.prefix,
+            items={COUNTRIES.map((country) => ({
+              value: country.prefix,
               component: (
                 <div className="flex items-center">
                   <Image
-                    src={`/icons/countries/${prefix.country_code}.svg`}
-                    alt={prefix.country_code}
+                    src={`/icons/countries/${country.code}.svg`}
+                    alt={country.code}
                     width={15}
                     height={15}
                     className="rounded-sm mr-2"
                   />
-                  <span>({prefix.prefix})</span>
+                  <span>({country.prefix})</span>
                 </div>
               ),
             }))}
+            onChange={handlePrefixChange}
             className="p-1"
             selectedOption={{
-              value: "54",
+              value: selectedPrefix.value,
               component: (
                 <div className="flex items-center">
                   <Image
-                    src={`/icons/countries/${"AR"}.svg`}
-                    alt={"AR"}
+                    src={`/icons/countries/${selectedPrefix.country}.svg`}
+                    alt={selectedPrefix.country}
                     width={15}
                     height={15}
                     className="rounded-sm mr-2"
                   />
-                  <span>({"54"})</span>
+                  <span>({selectedPrefix.value})</span>
                 </div>
               ),
             }}
