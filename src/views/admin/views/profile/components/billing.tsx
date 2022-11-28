@@ -1,4 +1,4 @@
-import useTranslation from "../../../../i18n/useTranslation";
+import useTranslation from "../../../../../i18n/useTranslation";
 
 const ProfileBilling = () => {
   const { t } = useTranslation();

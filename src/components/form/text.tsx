@@ -28,7 +28,9 @@ const TextInput: React.FC<Props> = ({
       {!textarea && (
         <input
           id="name"
-          className={`input p-3 ${className} ${full && "w-full"}`}
+          className={`${error ? "input-error" : "input"} p-3 ${className} ${
+            full && "w-full"
+          }`}
           type="text"
           {...inputProps}
         />
@@ -36,12 +38,14 @@ const TextInput: React.FC<Props> = ({
       {textarea && (
         <textarea
           id="name"
-          className={`input p-3 ${className} ${full && "w-full"}`}
+          className={`${error ? "input-error" : "input"} p-3 ${className} ${
+            full && "w-full"
+          }`}
           {...inputProps}
         />
       )}
       {error ? (
-        <span className="input-error mt-2 inline-block">{error}</span>
+        <span className="input-error-message mt-2 inline-block">{error}</span>
       ) : null}
     </div>
   );

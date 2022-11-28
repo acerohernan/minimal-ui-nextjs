@@ -95,7 +95,7 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
               </button>
             </div>
             {errors.name ? (
-              <span className="block input-error mt-2">
+              <span className="block input-error-message mt-2">
                 {errors.name.message}
               </span>
             ) : null}

@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { API } from "../../../../../api";
+import { useToast } from "../../../../../hooks/useToast";
 import { IPorfileContext, IProfileActions, IProfileState } from "./types";
 
 const ProfileContext = React.createContext({} as IPorfileContext);
@@ -16,6 +17,7 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
   const [state, setState] = useState<IProfileState>(initialState);
 
   const { push } = useRouter();
+  const toast = useToast();
 
   async function getInformation() {
     try {
@@ -23,7 +25,7 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
       const tenant = response.data.tenant;
       setState({ ...state, tenant });
     } catch (err) {
-      console.log("Ha ocurrido un error, ingresa nuevamente");
+      toast.error("Ha ocurrido un error, ingresa nuevamente");
       Cookies.remove("token");
       push("/login");
     }

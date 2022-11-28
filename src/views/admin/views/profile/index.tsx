@@ -1,10 +1,10 @@
 import Link from "next/link";
 import useSWR from "swr";
 import useTranslation from "../../../../i18n/useTranslation";
-import ProfileBilling from "./billing";
+import ProfileBilling from "./components/billing";
+import ProfileInfoForm from "./components/information";
+import ProfilePageSkeleton from "./components/skeleton";
 import { useProfileContext } from "./context";
-import ProfileInfoForm from "./information";
-import ProfilePageSkeleton from "./skeleton";
 
 const AdminProfileView = () => {
   const {

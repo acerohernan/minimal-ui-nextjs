@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
-import ImageInput from "../../../../components/form/image";
-import PhoneInput from "../../../../components/form/phone";
-import TextInput from "../../../../components/form/text";
-import { onlyNumbersRegex } from "../../../../helpers/regex";
-import useTranslation from "../../../../i18n/useTranslation";
+import ImageInput from "../../../../../components/form/image";
+import PhoneInput from "../../../../../components/form/phone";
+import TextInput from "../../../../../components/form/text";
+import { onlyNumbersRegex } from "../../../../../helpers/regex";
+import useTranslation from "../../../../../i18n/useTranslation";
+import { useProfileContext } from "../context";
 
 interface FormValues {
   name: string;
@@ -13,6 +14,9 @@ interface FormValues {
 
 const ProfileInfoForm = () => {
   const { t } = useTranslation();
+  const {
+    state: { tenant },
+  } = useProfileContext();
 
   const {
     register,
@@ -52,6 +56,7 @@ const ProfileInfoForm = () => {
               placeholder: "MiTienda",
               ...register("name", {
                 required: t("This field is required"),
+                value: tenant?.name,
               }),
             }}
           />
@@ -63,13 +68,18 @@ const ProfileInfoForm = () => {
               placeholder: "MiTienda",
               ...register("surname", {
                 required: t("This field is required"),
+                value: tenant?.surname,
               }),
             }}
           />
           <TextInput
             label={t("Email Address")}
             full={true}
-            inputProps={{ placeholder: "example@text.com", disabled: true }}
+            inputProps={{
+              placeholder: "example@text.com",
+              disabled: true,
+              value: tenant?.email,
+            }}
           />
           <PhoneInput
             label={t("Phone Number")}
@@ -83,6 +93,7 @@ const ProfileInfoForm = () => {
                   value: onlyNumbersRegex,
                   message: t("Plese enter only numbers"),
                 },
+                value: tenant?.phone,
               }),
             }}
           />

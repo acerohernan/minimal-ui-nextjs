@@ -69,7 +69,7 @@ const PhoneInput: React.FC<Props> = ({
         />
       </div>
       {error ? (
-        <span className="input-error mt-2 inline-block">{error}</span>
+        <span className="input-error-message mt-2 inline-block">{error}</span>
       ) : null}
     </div>
   );
