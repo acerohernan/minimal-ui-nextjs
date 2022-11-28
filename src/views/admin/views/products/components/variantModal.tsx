@@ -49,7 +49,16 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
 
   function handleSaveOption(data: OptionFormValues) {
     const id = nanoid();
-    setOptions({ ...options, id: data });
+    setOptions({ ...options, [id]: { ...data, id } });
+  }
+
+  function handleUpdateOption(id: string) {
+    return (form: OptionFormValues) => {
+      setOptions({
+        ...options,
+        [id]: form,
+      });
+    };
   }
 
   useEffect(() => {
@@ -148,7 +157,12 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
                 <OptionItem key={i} />
               ))} */}
               {Object.values(options).map((opt, i) => (
-                <OptionItem key={i} />
+                <OptionItem
+                  key={i}
+                  name={opt.name}
+                  price={opt.price}
+                  onUpdate={handleUpdateOption(opt.id)}
+                />
               ))}
               <OptionForm onSave={handleSaveOption} />
             </div>

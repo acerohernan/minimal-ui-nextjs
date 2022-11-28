@@ -3,15 +3,15 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import TextInput from "../../../../../../components/form/text";
+import { OptionFormValues } from "./form";
 
-interface Props {}
-
-interface OptionValues {
+interface Props {
   name: string;
   price: string;
+  onUpdate: (data: OptionFormValues) => void;
 }
 
-const OptionItem: React.FC<Props> = () => {
+const OptionItem: React.FC<Props> = ({ name, price, onUpdate }) => {
   const [saved, setSaved] = useState(true);
 
   const {
@@ -19,9 +19,10 @@ const OptionItem: React.FC<Props> = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<OptionValues>();
+  } = useForm<OptionFormValues>();
 
-  function onSubmit(data: OptionValues) {
+  function onSubmit(data: OptionFormValues) {
+    onUpdate(data);
     setSaved(true);
   }
 
@@ -40,6 +41,7 @@ const OptionItem: React.FC<Props> = () => {
                 placeholder: "Rojo",
                 ...register("name", {
                   required: "Requerido",
+                  value: name,
                 }),
               }}
             />
@@ -50,6 +52,7 @@ const OptionItem: React.FC<Props> = () => {
                 placeholder: "$ 7.00",
                 ...register("price", {
                   required: "Requerido",
+                  value: price,
                 }),
               }}
             />
@@ -65,10 +68,10 @@ const OptionItem: React.FC<Props> = () => {
         {saved && (
           <>
             <span className="block p-3 w-full outiline-none text-sm">
-              {name_value}
+              {name_value || name}
             </span>
             <span className="block p-3 w-full outiline-none text-sm">
-              $ {price_value}
+              $ {price_value || price}
             </span>
             <button
               className="p-3 flex justify-center"

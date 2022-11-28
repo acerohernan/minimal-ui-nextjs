@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import TextInput from "../../../../../../components/form/text";
 
 export interface OptionFormValues {
+  id: string;
   name: string;
   price: string;
 }
@@ -16,6 +17,7 @@ const OptionForm: React.FC<Props> = ({ onSave }) => {
     register,
     handleSubmit,
     setValue,
+    setFocus,
     formState: { errors },
   } = useForm<OptionFormValues>();
 
@@ -23,6 +25,7 @@ const OptionForm: React.FC<Props> = ({ onSave }) => {
     onSave(form);
     setValue("name", "");
     setValue("price", "");
+    setFocus("name");
   }
 
   return (
