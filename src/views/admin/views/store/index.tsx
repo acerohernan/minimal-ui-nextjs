@@ -1,11 +1,23 @@
 import Link from "next/link";
+import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
-import StoreDesign from "./design";
-import StoreDomain from "./domain";
-import StoreInfoForm from "./information";
+import StoreDesign from "./components/design";
+import StoreDomain from "./components/domain";
+import StoreInfoForm from "./components/information";
+import AdminStoreSkeleton from "./components/skeleton";
+import { useAdminStoreContext } from "./context";
 
 const AdminStoreView = () => {
+  const {
+    actions: { getInformation },
+    state: { store },
+  } = useAdminStoreContext();
   const { t } = useTranslation();
+
+  const { isValidating: isFetchingStore } = useSWRImmutable(
+    "store/information",
+    getInformation
+  );
 
   return (
     <div>
@@ -24,13 +36,16 @@ const AdminStoreView = () => {
           <span className="text-sm text-slate-400">{t("Store")}</span>
         </div>
       </div>
-      <div className="grid gap-4 mt-4 lg:mt-14">
-        <StoreDesign />
-        <div className="grid xl:grid-cols-[2fr_1fr] gap-4">
-          <StoreInfoForm />
-          <StoreDomain />
+      {store ? (
+        <div className="grid gap-4 mt-4 lg:mt-14">
+          <StoreDesign />
+          <div className="grid xl:grid-cols-[2fr_1fr] gap-4">
+            <StoreInfoForm />
+            <StoreDomain />
+          </div>
         </div>
-      </div>
+      ) : null}
+      {isFetchingStore && <AdminStoreSkeleton />}
     </div>
   );
 };

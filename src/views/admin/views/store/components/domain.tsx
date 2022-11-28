@@ -1,5 +1,5 @@
-import TextInput from "../../../../components/form/text";
-import useTranslation from "../../../../i18n/useTranslation";
+import TextInput from "../../../../../components/form/text";
+import useTranslation from "../../../../../i18n/useTranslation";
 
 const StoreDomain = () => {
   const { t } = useTranslation();

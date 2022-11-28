@@ -1,5 +1,5 @@
-import ImageInput from "../../../../components/form/image";
-import useTranslation from "../../../../i18n/useTranslation";
+import ImageInput from "../../../../../components/form/image";
+import useTranslation from "../../../../../i18n/useTranslation";
 
 const StoreDesign = () => {
   const { t } = useTranslation();

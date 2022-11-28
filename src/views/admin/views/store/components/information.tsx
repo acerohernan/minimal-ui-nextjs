@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import PhoneInput from "../../../../components/form/phone";
-import Select from "../../../../components/form/select";
-import TextInput from "../../../../components/form/text";
-import { onlyNumbersRegex } from "../../../../helpers/regex";
-import useTranslation from "../../../../i18n/useTranslation";
+import { StoreUpdateInformationForm } from "../../../../../api/store/types";
+import PhoneInput from "../../../../../components/form/phone";
+import Select from "../../../../../components/form/select";
+import TextInput from "../../../../../components/form/text";
+import { getPrefixFromPhoneNumber } from "../../../../../helpers/phone";
+import { onlyNumbersRegex } from "../../../../../helpers/regex";
+import useTranslation from "../../../../../i18n/useTranslation";
+import { useAdminStoreContext } from "../context";
 
 interface StoreCategory {
   name: string;
@@ -13,29 +17,29 @@ const CATEGORIES: StoreCategory[] = [
   { name: "Pantalones y joggers" },
   { name: "Instrumentos musicales" },
 ];
-interface FormValues {
-  name: string;
-  phone: string;
-  category: string;
-  country: string;
-  currency: string;
-  whatsapp: string;
-}
 
 const StoreInfoForm = () => {
+  const {
+    state: { store },
+  } = useAdminStoreContext();
   const { t } = useTranslation();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<StoreUpdateInformationForm>();
 
-  async function onSubmit(data: FormValues) {
+  const [telephonePrefix, setTelephonePrefix] = useState(() =>
+    getPrefixFromPhoneNumber(store?.telephone || "")
+  );
+  const [whatsappPrefix, setWhatsappPrefix] = useState(() =>
+    getPrefixFromPhoneNumber(store?.whatsapp || "")
+  );
+
+  async function onSubmit(data: StoreUpdateInformationForm) {
     console.log(data);
   }
-
-  console.log(errors);
 
   return (
     <form className="w-full card p-6 " onSubmit={handleSubmit(onSubmit)}>
@@ -48,18 +52,21 @@ const StoreInfoForm = () => {
             placeholder: "MiTienda",
             ...register("name", {
               required: t("This field is required"),
+              value: store?.name || "",
             }),
           }}
         />
         <PhoneInput
           label={t("Phone Number")}
           full={true}
-          error={errors.phone?.message}
-          onPrefixChange={(prefix) => {}}
+          error={errors.telephone?.message}
+          onPrefixChange={(prefix) => setTelephonePrefix(prefix)}
+          defaultPrefix={telephonePrefix}
           inputProps={{
             placeholder: "999113934",
-            ...register("phone", {
+            ...register("telephone", {
               required: t("This field is required"),
+              value: store?.telephone,
               pattern: {
                 value: onlyNumbersRegex,
                 message: t("Plese enter only numbers"),
@@ -82,13 +89,8 @@ const StoreInfoForm = () => {
         <TextInput
           label={t("Country")}
           full={true}
-          error={errors.name?.message}
           inputProps={{
-            placeholder: "MiTienda",
-            ...register("country", {
-              required: t("This field is required"),
-              value: "Peru",
-            }),
+            value: store?.country,
           }}
         />
 
@@ -100,6 +102,7 @@ const StoreInfoForm = () => {
             placeholder: "MiTienda",
             ...register("currency", {
               required: t("This field is required"),
+              value: store?.currency,
             }),
           }}
         />
@@ -107,11 +110,13 @@ const StoreInfoForm = () => {
           label={"Whatsapp"}
           full={true}
           error={errors.whatsapp?.message}
-          onPrefixChange={(prefix) => {}}
+          defaultPrefix={whatsappPrefix}
+          onPrefixChange={(prefix) => setWhatsappPrefix(prefix)}
           inputProps={{
             placeholder: "999113934",
             ...register("whatsapp", {
               required: t("This field is required"),
+              value: store?.whatsapp,
               pattern: {
                 value: onlyNumbersRegex,
                 message: t("Plese enter only numbers"),
