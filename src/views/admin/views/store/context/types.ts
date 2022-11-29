@@ -1,3 +1,5 @@
+import { StoreUpdateInformationForm } from "../../../../../api/store/types";
+
 export interface IAdminStoreContext {
   state: IAdminStoreState;
   actions: IAdminStoreActions;
@@ -7,6 +9,8 @@ export interface IAdminStoreState {
 }
 export interface IAdminStoreActions {
   getInformation: () => Promise<void>;
+  updateInformation: (form: StoreUpdateInformationForm) => Promise<void>;
+  uploadImage: (file: File) => Promise<{ url: string | null }>;
 }
 
 export interface IStore {

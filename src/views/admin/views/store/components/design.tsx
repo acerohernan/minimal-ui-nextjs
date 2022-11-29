@@ -1,8 +1,34 @@
+import { useState } from "react";
 import ImageInput from "../../../../../components/form/image";
 import useTranslation from "../../../../../i18n/useTranslation";
+import { useAdminStoreContext } from "../context";
 
 const StoreDesign = () => {
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
   const { t } = useTranslation();
+  const {
+    actions: { updateInformation, uploadImage },
+    state: { store },
+  } = useAdminStoreContext();
+
+  async function handleSubmit() {
+    let form: any = {};
+
+    if (logoFile) {
+      const { url } = await uploadImage(logoFile);
+      if (url) form["logo_img"] = url;
+    }
+
+    if (bannerFile) {
+      const { url } = await uploadImage(bannerFile);
+      if (url) form["banner_img"] = url;
+    }
+
+    if (Object.keys(form).length > 0) {
+      await updateInformation({ ...form });
+    }
+  }
 
   return (
     <div className="w-full card">
@@ -15,7 +41,8 @@ const StoreDesign = () => {
             height={160}
             className="h-40 w-40"
             rounded="rounded-lg"
-            onChange={(file) => {}}
+            defaultUrl={store?.logo_img || ""}
+            onChange={(file) => setLogoFile(file)}
           />
           <span className="mt-4 text-sm text-center label">
             {t("Allowed *.jpeg, *.jpg, *.png, *.gif")}
@@ -32,7 +59,8 @@ const StoreDesign = () => {
             height={160}
             className="h-24 sm:h-40 w-full max-w-lg"
             rounded="rounded-lg"
-            onChange={(file) => {}}
+            defaultUrl={store?.banner_img || ""}
+            onChange={(file) => setBannerFile(file)}
           />
           <span className="mt-4 text-sm label">
             {t("Recommended (1000x300)")}
@@ -41,7 +69,12 @@ const StoreDesign = () => {
         </div>
       </div>
       <div className="flex justify-end mt-0 m-6">
-        <button className="button text-sm" type="submit">
+        <button
+          className="button text-sm"
+          type="button"
+          onClick={handleSubmit}
+          disabled={!logoFile && !bannerFile}
+        >
           {t("Save Changes")}
         </button>
       </div>

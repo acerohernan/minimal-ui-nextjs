@@ -103,7 +103,7 @@ const ProfileInfoForm = () => {
             inputProps={{
               placeholder: "example@text.com",
               disabled: true,
-              value: tenant?.email,
+              defaultValue: tenant?.email,
             }}
           />
           <PhoneInput

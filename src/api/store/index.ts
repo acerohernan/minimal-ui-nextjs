@@ -1,6 +1,6 @@
 import { BASE_URL, fetchData } from "..";
 
-const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0M2EwNDRkYy1iMTQzLTQ3N2UtYTEzYi1hODAyY2Y1ZmVkZTIiLCJzdG9yZSI6Ijg0ZGQ2NjFkLTI2ZDYtNDNiMy1iZWVjLTEyZTA2ZDU2OTVhNCIsImlhdCI6MTY2OTY2OTc1NywiZXhwIjoxNjcwMjc0NTU3fQ.g7yIjkl0h0ttF8WIndE_GQOJ7eTHGBoUZF54JSF3dsk`;
+const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTU5MzYyOC02YTQxLTQzYmItODcxNi1mMjBiY2M2N2RlZWMiLCJzdG9yZSI6Ijg0ZmQ0YTY2LWIzZjctNGY0My04YTFmLTgwNTZmMGY0NTUyOCIsImlhdCI6MTY2OTY3OTMwMCwiZXhwIjoxNjcwMjg0MTAwfQ.ErHfs6rVjpgjGIpxniHyyv1iOT4Ji6yAh4INRl5RKWU`;
 const authorization = `Bearer ${token}`;
 
 export const getInformation = () =>

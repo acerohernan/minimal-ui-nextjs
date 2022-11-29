@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { StoreUpdateInformationForm } from "../../../../../api/store/types";
 import PhoneInput from "../../../../../components/form/phone";
@@ -21,12 +21,14 @@ const CATEGORIES: StoreCategory[] = [
 const StoreInfoForm = () => {
   const {
     state: { store },
+    actions: { updateInformation },
   } = useAdminStoreContext();
   const { t } = useTranslation();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<StoreUpdateInformationForm>();
 
@@ -38,8 +40,23 @@ const StoreInfoForm = () => {
   );
 
   async function onSubmit(data: StoreUpdateInformationForm) {
-    console.log(data);
+    data.telephone = `${telephonePrefix}${data.telephone}`;
+    data.whatsapp = `${whatsappPrefix}${data.whatsapp}`;
+
+    await updateInformation(data);
   }
+
+  useEffect(() => {
+    let telephonePrefix = getPrefixFromPhoneNumber(store?.telephone || "");
+    let phone = store?.telephone.replace(telephonePrefix, "");
+    setValue("telephone", phone);
+
+    let whatsappPrefix = getPrefixFromPhoneNumber(store?.whatsapp || "");
+    let wspt = store?.whatsapp.replace(whatsappPrefix, "");
+    setValue("whatsapp", wspt);
+
+    setValue("category", store?.category);
+  }, []);
 
   return (
     <form className="w-full card p-6 " onSubmit={handleSubmit(onSubmit)}>
@@ -66,7 +83,6 @@ const StoreInfoForm = () => {
             placeholder: "999113934",
             ...register("telephone", {
               required: t("This field is required"),
-              value: store?.telephone,
               pattern: {
                 value: onlyNumbersRegex,
                 message: t("Plese enter only numbers"),
@@ -81,7 +97,11 @@ const StoreInfoForm = () => {
               component: <>{cat.name}</>,
               value: cat.name,
             }))}
-            onChange={(opt) => {}}
+            selectedOption={{
+              component: <>{store?.category}</>,
+              value: store?.category,
+            }}
+            onChange={(opt) => setValue("category", opt.value)}
             className="w-full input p-3 z-0"
             optionsContainerClassname="w-full"
           />
@@ -90,16 +110,17 @@ const StoreInfoForm = () => {
           label={t("Country")}
           full={true}
           inputProps={{
-            value: store?.country,
+            defaultValue: store?.country,
+            disabled: true,
           }}
         />
-
         <TextInput
           label={t("Currency")}
           full={true}
           error={errors.currency?.message}
           inputProps={{
             placeholder: "MiTienda",
+            disabled: true,
             ...register("currency", {
               required: t("This field is required"),
               value: store?.currency,
@@ -116,7 +137,6 @@ const StoreInfoForm = () => {
             placeholder: "999113934",
             ...register("whatsapp", {
               required: t("This field is required"),
-              value: store?.whatsapp,
               pattern: {
                 value: onlyNumbersRegex,
                 message: t("Plese enter only numbers"),
