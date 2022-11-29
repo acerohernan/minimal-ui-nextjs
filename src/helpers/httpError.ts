@@ -8,7 +8,6 @@ export function getHttpError(error: any): string {
       message = errMsg;
     }
 
-    console.log(errMsg, errMsg.lenght);
     /* If the errors are in array */
     if (Array.isArray(errMsg)) {
       message = errMsg[0];
@@ -16,4 +15,12 @@ export function getHttpError(error: any): string {
   }
 
   return message;
+}
+
+export function getHttpCode(err: any): number {
+  let code = 500;
+
+  if (err.response && err.response.status) code = err.response.status;
+
+  return code;
 }

@@ -25,6 +25,7 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
+  const token = Cookies.get("token");
 
   async function getInformation() {
     try {
@@ -65,6 +66,8 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
     updateInformation,
     uploadImage,
   };
+
+  if (!token) return <></>;
 
   return (
     <ProfileContext.Provider value={{ state, actions }}>

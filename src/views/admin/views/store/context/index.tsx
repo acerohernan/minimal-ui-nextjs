@@ -25,6 +25,7 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
+  const token = Cookies.get("token");
 
   async function getInformation() {
     try {

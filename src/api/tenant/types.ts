@@ -1,3 +1,8 @@
+export interface TenantLoginForm {
+  email: string;
+  password: string;
+}
+
 export interface TenantUpdateInformationForm {
   name: string;
   surname: string;

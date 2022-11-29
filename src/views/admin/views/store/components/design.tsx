@@ -17,12 +17,20 @@ const StoreDesign = () => {
 
     if (logoFile) {
       const { url } = await uploadImage(logoFile);
-      if (url) form["logo_img"] = url;
+
+      if (url) {
+        setLogoFile(null);
+        form["logo_img"] = url;
+      }
     }
 
     if (bannerFile) {
       const { url } = await uploadImage(bannerFile);
-      if (url) form["banner_img"] = url;
+
+      if (url) {
+        setBannerFile(null);
+        form["banner_img"] = url;
+      }
     }
 
     if (Object.keys(form).length > 0) {

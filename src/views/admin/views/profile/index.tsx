@@ -11,10 +11,9 @@ const AdminProfileView = () => {
     actions: { getInformation },
     state: { tenant },
   } = useProfileContext();
-  const { isValidating: isLoading } = useSWRImmutable(
-    "tenant/information",
-    getInformation
-  );
+  useSWRImmutable("tenant/information", getInformation);
+
+  console.log(tenant);
 
   const { t } = useTranslation();
 
@@ -40,8 +39,9 @@ const AdminProfileView = () => {
           <ProfileInfoForm />
           <ProfileBilling />
         </div>
-      ) : null}
-      {isLoading && <ProfilePageSkeleton />}
+      ) : (
+        <ProfilePageSkeleton />
+      )}
     </div>
   );
 };
