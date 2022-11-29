@@ -41,7 +41,7 @@ const Select: React.FC<Props> = ({
   return (
     <div className="relative" ref={clickRef}>
       <button
-        className={`focus:outline-none focus:shadow-outline flex items-center justify-between dark:text-slate-300 ${className}`}
+        className={`focus:shadow-outline  flex items-center justify-between dark:text-slate-300 ${className}`}
         type="button"
         onClick={() => setOpen(!open)}
       >
@@ -64,8 +64,9 @@ const Select: React.FC<Props> = ({
 
           return (
             <button
-              className="text-start w-full p-3 text-sm hover:bg-gray-400/10 dark:hover:bg-gray-700/30"
+              className={`text-start w-full p-3 text-sm hover:bg-gray-400/10 dark:hover:bg-gray-700/30`}
               key={i}
+              tabIndex={open ? 0 : -1}
               onClick={() => handleChange(item)}
             >
               {item.component}

@@ -1,9 +1,27 @@
 import { BASE_URL, fetchData } from "..";
 import { authHeaders } from "../helpers";
-import { TenantLoginForm, TenantUpdateInformationForm } from "./types";
+import {
+  TenantForgotPasswordForm,
+  TenantLoginForm,
+  TenantRestorePasswordForm,
+  TenantSignupForm,
+  TenantUpdateInformationForm,
+} from "./types";
 
 export const login = (form: TenantLoginForm) =>
-  fetchData.post(`${BASE_URL}/tenant/auth/login`, form, {});
+  fetchData.post(`${BASE_URL}/tenant/auth/login`, form);
+
+export const signup = (form: TenantSignupForm) =>
+  fetchData.post(`${BASE_URL}/tenant/auth/signup`, form);
+
+export const forgotPassword = (form: TenantForgotPasswordForm) =>
+  fetchData.post(`${BASE_URL}/tenant/auth/password/forgot`, form);
+
+export const verifyRestorePasswordCode = (code: string) =>
+  fetchData.get(`${BASE_URL}/tenant/auth/password/verify-code/${code}`);
+
+export const restorePassword = (form: TenantRestorePasswordForm) =>
+  fetchData.post(`${BASE_URL}/tenant/auth/password/restore`, form);
 
 export const getInformation = () => {
   return fetchData.get(`${BASE_URL}/tenant/information`, {

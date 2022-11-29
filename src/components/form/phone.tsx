@@ -83,7 +83,9 @@ const PhoneInput: React.FC<Props> = ({
         </span>
         <input
           id="name"
-          className={`input ${className} ${full && "w-full"} p-3 pl-24`}
+          className={`${error ? "input-error" : "input"} ${className} ${
+            full && "w-full"
+          } p-3 pl-24`}
           type="text"
           {...inputProps}
         />

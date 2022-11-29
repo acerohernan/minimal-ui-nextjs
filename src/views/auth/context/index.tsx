@@ -2,7 +2,11 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React from "react";
 import { API } from "../../../api";
-import { TenantLoginForm } from "../../../api/tenant/types";
+import {
+  TenantForgotPasswordForm,
+  TenantLoginForm,
+  TenantSignupForm,
+} from "../../../api/tenant/types";
 import { getHttpCode, getHttpError } from "../../../helpers/httpError";
 import { useToast } from "../../../hooks/useToast";
 import { IAuthContext, IAuthContextActions, IAuthContextState } from "./types";
@@ -18,6 +22,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
+
+  async function signup(form: TenantSignupForm): Promise<void> {
+    try {
+      await API.tenant.signup(form);
+      toast.success("Successful registration");
+      push("/login");
+    } catch (err) {
+      toast.error(getHttpError(err));
+    }
+  }
 
   async function login(form: TenantLoginForm): Promise<void> {
     try {
@@ -41,7 +55,20 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     push("/login");
   }
 
-  const actions: IAuthContextActions = { login, logout };
+  async function forgotPassword(form: TenantForgotPasswordForm) {
+    try {
+      await API.tenant.forgotPassword(form);
+    } catch (err) {
+      toast.error(getHttpError(err));
+    }
+  }
+
+  const actions: IAuthContextActions = {
+    signup,
+    login,
+    logout,
+    forgotPassword,
+  };
 
   const token = Cookies.get("token");
 

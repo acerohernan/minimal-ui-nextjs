@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { TenantLoginForm } from "../../api/tenant/types";
+import PasswordInput from "../../components/form/password";
 import TextInput from "../../components/form/text";
 import { emailRegex } from "../../helpers/regex";
 import useTranslation from "../../i18n/useTranslation";
@@ -32,7 +33,7 @@ const LoginView = () => {
       <div className=" w-full max-w-md mx-auto">
         <h1 className="text-3xl font-medium">Sign in to MiTienda</h1>
         <div className="mt-2">
-          <span className="">New user?</span>
+          <span className="font-light">New user?</span>
           <Link
             className="text-purple-700 dark:text-purple-500 hover:underline ml-1"
             href="/signup"
@@ -57,20 +58,27 @@ const LoginView = () => {
             }}
           />
           <div className="w-2 h-3" />
-          <TextInput
+          <PasswordInput
             label="Password"
             full
             error={errors.password?.message}
             inputProps={{
               placeholder: "********",
-              type: "password",
               ...register("password", {
                 required: t("This field is required"),
               }),
             }}
           />
+          <div className="flex justify-end mt-2">
+            <Link
+              href="/forgot-password"
+              className="text-sm font-light underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
           <button
-            className="w-full py-3 bg-dark-500 text-white rounded-lg font-medium mt-10 dark:bg-slate-50 dark:text-dark-800 dark:hover:bg-slate-200 transition-all hover:bg-dark-800 disabled:opacity-50"
+            className="w-full py-3 bg-dark-500 text-white rounded-lg font-medium mt-8 dark:bg-slate-50 dark:text-dark-800 dark:hover:bg-slate-200 transition-all hover:bg-dark-800 disabled:opacity-50"
             type="submit"
             disabled={loading}
           >
