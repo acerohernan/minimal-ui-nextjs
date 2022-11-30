@@ -14,10 +14,7 @@ const AdminStoreView = () => {
   } = useAdminStoreContext();
   const { t } = useTranslation();
 
-  const { isValidating: isFetchingStore } = useSWRImmutable(
-    "store/information",
-    getInformation
-  );
+  useSWRImmutable("store/information", getInformation, {});
 
   return (
     <div>
@@ -45,7 +42,7 @@ const AdminStoreView = () => {
           </div>
         </div>
       ) : null}
-      {isFetchingStore && <AdminStoreSkeleton />}
+      {!store && <AdminStoreSkeleton />}
     </div>
   );
 };

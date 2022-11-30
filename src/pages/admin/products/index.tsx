@@ -1,10 +1,13 @@
 import AdminLayout from "../../../views/admin/components/layout";
 import AdminProductsView from "../../../views/admin/views/products";
+import { AdminProductProvider } from "../../../views/admin/views/products/context";
 
 const AdminProducts = () => {
   return (
     <AdminLayout>
-      <AdminProductsView />
+      <AdminProductProvider>
+        <AdminProductsView />
+      </AdminProductProvider>
     </AdminLayout>
   );
 };

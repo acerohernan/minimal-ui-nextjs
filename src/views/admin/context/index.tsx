@@ -16,7 +16,5 @@ export const AdminProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, []);
 
-  if (!token) return <></>;
-
   return <AdminContext.Provider value={{}}>{children}</AdminContext.Provider>;
 };

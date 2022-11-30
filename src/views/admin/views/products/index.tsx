@@ -1,12 +1,22 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductCard from "./components/card";
+import { useAdminProductsContext } from "./context";
 
 const AdminProductsView = () => {
+  const {
+    actions: { getAllProducts },
+  } = useAdminProductsContext();
+
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    getAllProducts();
+    console.log("render");
+  }, []);
 
   return (
     <div>
@@ -57,3 +67,6 @@ const AdminProductsView = () => {
 };
 
 export default AdminProductsView;
+function useSWRImmutable(arg0: string, getInformation: any) {
+  throw new Error("Function not implemented.");
+}
