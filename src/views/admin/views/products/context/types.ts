@@ -4,6 +4,15 @@ export interface IAdminProductContext {
 }
 export interface IAdminProductState {
   products: Array<IProduct>;
+  metadata: {
+    page: number;
+    next_page: number;
+    page_count: number;
+    limit: number;
+    has_next_page: boolean;
+    has_previous_page: boolean;
+    entities_count: number;
+  };
 }
 export interface IAdminProductActions {
   getAllProducts: () => Promise<void>;

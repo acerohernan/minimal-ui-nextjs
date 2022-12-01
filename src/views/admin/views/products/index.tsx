@@ -1,22 +1,29 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductCard from "./components/card";
+import AdminProductSkeleton from "./components/skeleton";
 import { useAdminProductsContext } from "./context";
 
 const AdminProductsView = () => {
   const {
     actions: { getAllProducts },
+    state: {
+      products,
+      metadata: { page, has_next_page, has_previous_page },
+    },
   } = useAdminProductsContext();
 
-  const { t } = useTranslation();
-  const [page, setPage] = useState(1);
+  useSWRImmutable("product/all", getAllProducts, {
+    onSuccess: () => {
+      setProductsLoaded(true);
+    },
+  });
 
-  useEffect(() => {
-    getAllProducts();
-    console.log("render");
-  }, []);
+  const { t } = useTranslation();
+  const [productsLoaded, setProductsLoaded] = useState(false);
 
   return (
     <div>
@@ -35,38 +42,30 @@ const AdminProductsView = () => {
           <span className="text-sm text-slate-400">{t("Products")}</span>
         </div>
       </div>
-      <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-      </div>
-      <div className="card w-48 h-16 mx-auto mt-6 flex items-center justify-center">
-        <button
-          className="icon-button"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          <ChevronLeftIcon className="icon" />
-        </button>
-        <span className="block mx-7">{page}</span>
-        <button
-          className="icon-button"
-          disabled={page === 9}
-          onClick={() => setPage(page + 1)}
-        >
-          <ChevronRightIcon className="icon" />
-        </button>
-      </div>
+      {productsLoaded && products ? (
+        <div>
+          <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+            {products.map((product, i) => (
+              <ProductCard key={i} product={product} />
+            ))}
+          </div>
+          <div className="card w-48 h-16 mx-auto mt-6 flex items-center justify-center">
+            <button
+              className="icon-button cursor-pointer"
+              disabled={!has_previous_page}
+            >
+              <ChevronLeftIcon className="icon" />
+            </button>
+            <span className="block mx-7">{page}</span>
+            <button className="icon-button" disabled={!has_next_page}>
+              <ChevronRightIcon className="icon" />
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {!productsLoaded && <AdminProductSkeleton />}
     </div>
   );
 };
 
 export default AdminProductsView;
-function useSWRImmutable(arg0: string, getInformation: any) {
-  throw new Error("Function not implemented.");
-}

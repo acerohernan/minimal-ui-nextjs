@@ -13,6 +13,15 @@ const AdminProductContext = React.createContext({} as IAdminProductContext);
 
 const initialState: IAdminProductState = {
   products: [],
+  metadata: {
+    page: 1,
+    entities_count: 0,
+    has_next_page: false,
+    has_previous_page: false,
+    limit: 1,
+    next_page: 2,
+    page_count: 0,
+  },
 };
 
 export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
@@ -26,7 +35,8 @@ export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
     try {
       const response = await API.product.getAllProducts();
       const products = response.data.products;
-      setState({ ...state, products });
+      const metadata = response.data.meta;
+      setState({ ...state, products, metadata });
     } catch (err) {
       toast.error("Ha ocurrido un error, ingresa nuevamente");
       Cookies.remove("token");

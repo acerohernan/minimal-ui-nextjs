@@ -13,7 +13,7 @@
 }
 
 .icon-button {
-  @apply p-2 rounded-full transition-all hover:bg-gray-400/10 dark:hover:bg-gray-700/30 hover:scale-110 focus:bg-gray-400/10 dark:focus:bg-gray-700/30 focus:scale-110;
+  @apply p-2 rounded-full transition-all hover:bg-gray-400/10 dark:hover:bg-gray-700/30 hover:scale-110 focus:bg-gray-400/10 dark:focus:bg-gray-700/30 focus:scale-110 disabled:opacity-30;
 }
 
 .input {
@@ -67,6 +67,7 @@
 }
 
 .hide-page {
-  max-height: calc(100vh - 180px);
-  overflow: hidden;
+  /* max-height: calc(100vh - 180px);
+  overflow: hidden; */
+  /*  position: fixed; */
 }

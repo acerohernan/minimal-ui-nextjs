@@ -25,12 +25,12 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
-  const token = Cookies.get("token");
 
   async function getInformation() {
     try {
       const response = await API.store.getInformation();
       const store = response.data.store;
+      console.log(store);
       setState({ ...state, store });
     } catch (err) {
       toast.error(getHttpError(err));

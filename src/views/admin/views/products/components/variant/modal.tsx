@@ -2,31 +2,27 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Checkbox from "../../../../../components/form/checkbox";
-import Switch from "../../../../../components/form/switch";
-import TextInput from "../../../../../components/form/text";
-import useTranslation from "../../../../../i18n/useTranslation";
-import OptionForm, { OptionFormValues } from "./option/form";
-import OptionItem from "./option/item";
-
-interface IOption {
-  name: string;
-  price: string;
-}
-
-interface IProductVariant {
-  name: string;
-  mandatory: boolean;
-  options_to_choose: number;
-  options: Array<IOption>;
-}
+import Checkbox from "../../../../../../components/form/checkbox";
+import Switch from "../../../../../../components/form/switch";
+import TextInput from "../../../../../../components/form/text";
+import useTranslation from "../../../../../../i18n/useTranslation";
+import { IProductVariant } from "../../context/types";
+import OptionForm, { OptionFormValues } from "../option/form";
+import OptionItem from "../option/item";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
+  handleAddVariant: (variant: IProductVariant) => void;
+  variant: IProductVariant;
 }
 
-const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
+const ProductVariantModal: React.FC<Props> = ({
+  open,
+  handleClose,
+  handleAddVariant,
+  variant,
+}) => {
   const {
     register,
     handleSubmit,
@@ -36,15 +32,36 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
   } = useForm<IProductVariant>();
   const { t } = useTranslation();
 
-  const [options, setOptions] = useState<Record<string, OptionFormValues>>({});
+  const [options, setOptions] = useState<Record<string, OptionFormValues>>(
+    () => {
+      let options: Record<string, OptionFormValues> = {};
+
+      variant.options.forEach((opt) => {
+        const id = nanoid();
+        options[id] = { ...opt, id };
+      });
+
+      return options;
+    }
+  );
 
   const mandatory_value = watch("mandatory");
   const options_to_choose_value = watch("options_to_choose");
 
   function onSubmit(data: IProductVariant) {
     if (data.options_to_choose < 1) data.options_to_choose = 1;
+    data.options = Object.values(options);
 
-    console.log(data);
+    handleAddVariant(data);
+    cleanAllFields();
+    handleClose();
+  }
+
+  function cleanAllFields() {
+    setValue("name", "");
+    setValue("mandatory", true);
+    setValue("options_to_choose", 1);
+    setOptions({});
   }
 
   function handleSaveOption(data: OptionFormValues) {
@@ -62,17 +79,15 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
   }
 
   useEffect(() => {
-    setValue("options_to_choose", 1);
+    setValue("mandatory", variant.mandatory);
+    setValue("options_to_choose", variant.options_to_choose);
   }, []);
 
   if (!open) return <></>;
 
   return (
     <div className="fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-black/50 dark:bg-gray-100/20 z-30">
-      <form
-        className="absolute overflow-y-auto top-0 bottom-0 left-0 right-0 m-auto lg:my-10 card max-w-xl bg-white p-6 sm:p-8 scrollbar grid grid-rows-[1fr_60px]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="absolute overflow-y-auto top-0 bottom-0 left-0 right-0 m-auto lg:my-10 card max-w-xl bg-white p-6 sm:p-8 scrollbar grid grid-rows-[1fr_60px]">
         <div className="flex flex-col gap-6">
           <div>
             <label className="label block mb-2">Nombre de la variante *</label>
@@ -83,6 +98,7 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
                   placeholder: "Color",
                   ...register("name", {
                     required: t("This field is required"),
+                    value: variant.name,
                   }),
                 }}
               />
@@ -108,6 +124,7 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
             <div className="flex items-center">
               <Switch
                 className="z-10"
+                checked={mandatory_value}
                 onChange={() =>
                   setValue("mandatory", !Boolean(mandatory_value))
                 }
@@ -132,14 +149,25 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
               </button>
               <button
                 className="text-sm flex items-center "
-                onClick={() => setValue("options_to_choose", 0)}
+                onClick={() => setValue("options_to_choose", 2)}
                 type="button"
               >
                 <div className="w-10">
                   <Checkbox checked={options_to_choose_value !== 1} />
                 </div>
                 <span className="block ml-2">
-                  <input className="input w-full p-3" placeholder="Definir" />
+                  <input
+                    className="input w-full p-3"
+                    placeholder="Definir"
+                    value={
+                      options_to_choose_value !== 1
+                        ? options_to_choose_value
+                        : ""
+                    }
+                    onChange={(e) => {
+                      setValue("options_to_choose", Number(e.target.value));
+                    }}
+                  />
                 </span>
               </button>
             </div>
@@ -148,14 +176,6 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
           <div>
             <label className="label block mt-2">Opciones</label>
             <div className="mt-4 grid gap-2">
-              {/* <div className="grid grid-cols-[2fr_1fr_50px]  lg:grid-cols-[3fr_1fr_50px] items-center gap-4">
-                <span className="text-sm font-light">Nombre</span>
-                <span className="text-sm font-light">Precio</span>
-                <span className="text-sm font-light">Eliminar</span>
-              </div> */}
-              {/* {options.map((opt, i) => (
-                <OptionItem key={i} />
-              ))} */}
               {Object.values(options).map((opt, i) => (
                 <OptionItem
                   key={i}
@@ -186,7 +206,10 @@ const ProductVariantModal: React.FC<Props> = ({ open, handleClose }) => {
           >
             Volver
           </button>
-          <button className="text-sm button w-full" type="submit">
+          <button
+            className="text-sm button w-full"
+            onClick={handleSubmit(onSubmit)}
+          >
             Añadir Variante
           </button>
         </div>

@@ -9,11 +9,11 @@ import { useProfileContext } from "./context";
 const AdminProfileView = () => {
   const {
     actions: { getInformation },
-    state: { tenant },
   } = useProfileContext();
-  useSWRImmutable("tenant/information", getInformation);
-
-  console.log(tenant);
+  const { isValidating } = useSWRImmutable(
+    "tenant/information",
+    getInformation
+  );
 
   const { t } = useTranslation();
 
@@ -34,14 +34,13 @@ const AdminProfileView = () => {
           <span className="text-sm text-slate-400">{t("Profile")}</span>
         </div>
       </div>
-      {tenant ? (
+      {!isValidating && (
         <div className="grid gap-4 mt-4 lg:mt-14">
           <ProfileInfoForm />
           <ProfileBilling />
         </div>
-      ) : (
-        <ProfilePageSkeleton />
       )}
+      {isValidating && <ProfilePageSkeleton />}
     </div>
   );
 };

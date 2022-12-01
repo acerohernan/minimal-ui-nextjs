@@ -10,11 +10,10 @@ import { useAdminStoreContext } from "./context";
 const AdminStoreView = () => {
   const {
     actions: { getInformation },
-    state: { store },
   } = useAdminStoreContext();
   const { t } = useTranslation();
 
-  useSWRImmutable("store/information", getInformation, {});
+  const { isValidating } = useSWRImmutable("store/information", getInformation);
 
   return (
     <div>
@@ -33,7 +32,7 @@ const AdminStoreView = () => {
           <span className="text-sm text-slate-400">{t("Store")}</span>
         </div>
       </div>
-      {store ? (
+      {!isValidating && (
         <div className="grid gap-4 mt-4 lg:mt-14">
           <StoreDesign />
           <div className="grid xl:grid-cols-[2fr_1fr] gap-4">
@@ -41,8 +40,8 @@ const AdminStoreView = () => {
             <StoreDomain />
           </div>
         </div>
-      ) : null}
-      {!store && <AdminStoreSkeleton />}
+      )}
+      {isValidating && <AdminStoreSkeleton />}
     </div>
   );
 };
