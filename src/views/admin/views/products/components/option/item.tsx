@@ -3,12 +3,12 @@ import { CheckIcon } from "@heroicons/react/24/solid";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import TextInput from "../../../../../../components/form/text";
-import { OptionFormValues } from "./form";
+import { IVarianOption } from "../../context/types";
 
 interface Props {
   name: string;
   price: string;
-  onUpdate: (data: OptionFormValues) => void;
+  onUpdate: (data: IVarianOption) => void;
 }
 
 const OptionItem: React.FC<Props> = ({ name, price, onUpdate }) => {
@@ -19,9 +19,9 @@ const OptionItem: React.FC<Props> = ({ name, price, onUpdate }) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<OptionFormValues>();
+  } = useForm<IVarianOption>();
 
-  function onSubmit(data: OptionFormValues) {
+  function onSubmit(data: IVarianOption) {
     onUpdate(data);
     setSaved(true);
   }

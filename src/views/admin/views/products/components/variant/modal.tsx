@@ -13,14 +13,14 @@ import OptionItem from "../option/item";
 interface Props {
   open: boolean;
   handleClose: () => void;
-  handleAddVariant: (variant: IProductVariant) => void;
+  onSave: (variant: IProductVariant) => void;
   variant: IProductVariant;
 }
 
 const ProductVariantModal: React.FC<Props> = ({
   open,
   handleClose,
-  handleAddVariant,
+  onSave,
   variant,
 }) => {
   const {
@@ -52,16 +52,20 @@ const ProductVariantModal: React.FC<Props> = ({
     if (data.options_to_choose < 1) data.options_to_choose = 1;
     data.options = Object.values(options);
 
-    handleAddVariant(data);
-    cleanAllFields();
+    if (!data.id) {
+      data.id = nanoid();
+      resetFieldsFromInitialValues();
+    }
+
+    onSave(data);
     handleClose();
   }
 
-  function cleanAllFields() {
-    setValue("name", "");
-    setValue("mandatory", true);
-    setValue("options_to_choose", 1);
-    setOptions({});
+  function resetFieldsFromInitialValues() {
+    setValue("id", variant.id);
+    setValue("name", variant.name);
+    setValue("mandatory", variant.mandatory);
+    setValue("options_to_choose", variant.options_to_choose);
   }
 
   function handleSaveOption(data: OptionFormValues) {
@@ -79,6 +83,7 @@ const ProductVariantModal: React.FC<Props> = ({
   }
 
   useEffect(() => {
+    setValue("id", variant.id);
     setValue("mandatory", variant.mandatory);
     setValue("options_to_choose", variant.options_to_choose);
   }, []);
@@ -87,7 +92,7 @@ const ProductVariantModal: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-black/50 dark:bg-gray-100/20 z-30">
-      <form className="absolute overflow-y-auto top-0 bottom-0 left-0 right-0 m-auto lg:my-10 card max-w-xl bg-white p-6 sm:p-8 scrollbar grid grid-rows-[1fr_60px]">
+      <div className="absolute overflow-y-auto top-0 bottom-0 left-0 right-0 m-auto lg:my-10 card max-w-xl bg-white p-6 sm:p-8 scrollbar grid grid-rows-[1fr_60px]">
         <div className="flex flex-col gap-6">
           <div>
             <label className="label block mb-2">Nombre de la variante *</label>
@@ -201,7 +206,10 @@ const ProductVariantModal: React.FC<Props> = ({
         <div className="flex gap-4 pt-6">
           <button
             className="text-sm button-outline w-full"
-            onClick={handleClose}
+            onClick={() => {
+              resetFieldsFromInitialValues();
+              handleClose();
+            }}
             type="button"
           >
             Volver
@@ -210,10 +218,10 @@ const ProductVariantModal: React.FC<Props> = ({
             className="text-sm button w-full"
             onClick={handleSubmit(onSubmit)}
           >
-            Añadir Variante
+            {!variant.id ? "Añadir Variante" : "Guardar cambios"}
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

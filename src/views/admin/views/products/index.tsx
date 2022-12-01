@@ -1,4 +1,8 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlusIcon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useState } from "react";
 import useSWRImmutable from "swr/immutable";
@@ -44,7 +48,13 @@ const AdminProductsView = () => {
       </div>
       {productsLoaded && products ? (
         <div>
-          <div className="card w-full mt-4 lg:mt-14 grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+          <div className="flex justify-end mt-4 lg:mt-14 mb-2">
+            <Link className="button flex text-sm" href="/admin/products/create">
+              Create Product
+              <PlusIcon className="w-5 h-5 block ml-1" />
+            </Link>
+          </div>
+          <div className="card w-full grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
             {products.map((product, i) => (
               <ProductCard key={i} product={product} />
             ))}

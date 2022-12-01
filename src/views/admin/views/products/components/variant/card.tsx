@@ -9,9 +9,11 @@ import ProductVariantModal from "./modal";
 
 interface Props {
   variant: IProductVariant;
+  handleOpen: () => void;
+  handleUpdate: (variant: IProductVariant) => void;
 }
 
-const VariantCard: React.FC<Props> = ({ variant }) => {
+const VariantCard: React.FC<Props> = ({ variant, handleUpdate }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -20,30 +22,33 @@ const VariantCard: React.FC<Props> = ({ variant }) => {
         <span className="input w-full p-3">{variant.name}</span>
         <div className="flex gap-4 ml-4">
           <button
-            className="input flex p-3 items-center"
+            type="button"
             onClick={() => setOpen(true)}
+            className="input flex p-3 items-center"
           >
             <EyeIcon className="w-5 h-5" />
           </button>
           <button
-            className="input flex p-3 items-center"
+            type="button"
             onClick={() => setOpen(true)}
+            className="input flex p-3 items-center"
           >
             <PencilSquareIcon className="w-5 h-5" />
           </button>
           <button
-            className="input flex p-3 items-center"
+            type="button"
             onClick={() => setOpen(true)}
+            className="input flex p-3 items-center"
           >
             <TrashIcon className="w-5 h-5" />
           </button>
         </div>
       </div>
       <ProductVariantModal
-        variant={variant}
-        handleClose={() => setOpen(false)}
         open={open}
-        handleAddVariant={() => {}}
+        handleClose={() => setOpen(false)}
+        variant={variant}
+        onSave={handleUpdate}
       />
     </>
   );

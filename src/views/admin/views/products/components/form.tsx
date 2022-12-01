@@ -5,7 +5,6 @@ import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CreateProductForm } from "../../../../../api/product/types";
 import ImageInput from "../../../../../components/form/image";
 import Select from "../../../../../components/form/select";
 import TextInput from "../../../../../components/form/text";
@@ -16,18 +15,21 @@ import ProductVariantModal from "./variant/modal";
 
 interface Props {
   product: IProduct;
+  onSave: (product: IProduct) => Promise<void>;
 }
 
-const AdminProductForm: React.FC<Props> = ({ product }) => {
+const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [variants, setVariants] = useState<Record<string, IProductVariant>>(
     () => {
       let state: Record<string, IProductVariant> = {};
 
       product.variants.forEach((variant) => {
         const id = nanoid();
-        state[id] = variant;
+        state[id] = { ...variant, id };
       });
 
       return state;
@@ -38,20 +40,20 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateProductForm>();
+  } = useForm<IProduct>();
 
-  async function onSubmit(data: CreateProductForm) {
+  async function onSubmit(data: IProduct) {
     data.category_id = null;
-    console.log(data);
+    data.variants = Object.values(variants);
+    data.stock = Number(data.stock);
+
+    setLoading(true);
+    await onSave(data);
+    setLoading(false);
   }
 
   function handleAddVariant(variant: IProductVariant) {
-    const id = nanoid();
-    setVariants({ ...variants, [id]: variant });
-  }
-
-  function handleOpenModal() {
-    setOpenModal(true);
+    setVariants({ ...variants, [variant.id]: variant });
   }
 
   function handleCloseModal() {
@@ -72,9 +74,16 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
             {t("Administrator")}
           </Link>
           <div className="w-1 h-1 bg-slate-400 dark:bg-slate-50 rounded-full" />
-          <span className="text-sm dark:text-white">{t("Products")}</span>
+          <Link
+            href="/admin/products"
+            className="hover:underline text-sm dark:text-white"
+          >
+            {t("Products")}
+          </Link>
           <div className="w-1 h-1 bg-slate-400 dark:bg-slate-50 rounded-full" />
-          <span className="text-sm text-slate-400">{"Create"}</span>
+          <span className="text-sm text-slate-400">
+            {product.name || "Create"}
+          </span>
         </div>
       </div>
       <form
@@ -146,7 +155,6 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
             inputProps={{
               placeholder: "7.00",
               ...register("offer_price", {
-                required: t("This field is required"),
                 value: product.offer_price,
               }),
             }}
@@ -159,6 +167,10 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
               placeholder: "12",
               ...register("stock", {
                 required: t("This field is required"),
+                min: {
+                  value: 1,
+                  message: "El stock del producto no puede ser menor a 1",
+                },
                 value: product.stock,
               }),
             }}
@@ -186,13 +198,18 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
             <span className="label block mb-2">Variantes</span>
             <div className="grid gap-6">
               {Object.values(variants).map((variant, i) => (
-                <VariantCard variant={variant} key={i} />
+                <VariantCard
+                  variant={variant}
+                  handleUpdate={handleAddVariant}
+                  key={i}
+                  handleOpen={() => setOpenModal(true)}
+                />
               ))}
             </div>
             <button
               className="text-sm font-medium hover:underline text-purple-800 dark:text-purple-400 mt-2"
               type="button"
-              onClick={handleOpenModal}
+              onClick={() => setOpenModal(true)}
             >
               + Agregar variante
             </button>
@@ -200,15 +217,16 @@ const AdminProductForm: React.FC<Props> = ({ product }) => {
         </div>
         <div className="flex justify-end">
           <button className="button text-sm" type="submit">
-            {"Add Product"}
+            {product.id ? "Guardar cambios" : "Añadir producto"}
           </button>
         </div>
       </form>
       <ProductVariantModal
         open={openModal}
         handleClose={handleCloseModal}
-        handleAddVariant={handleAddVariant}
+        onSave={handleAddVariant}
         variant={{
+          id: "",
           mandatory: true,
           name: "",
           options_to_choose: 1,

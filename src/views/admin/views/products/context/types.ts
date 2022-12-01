@@ -31,6 +31,7 @@ export interface IProduct {
 }
 
 export interface IProductVariant {
+  id: string;
   name: string;
   mandatory: boolean;
   options_to_choose: number;
@@ -38,6 +39,7 @@ export interface IProductVariant {
 }
 
 export interface IVarianOption {
+  id: string;
   name: string;
   price: string;
 }
