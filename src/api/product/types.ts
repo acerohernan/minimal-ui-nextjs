@@ -2,10 +2,10 @@ export interface CreateProductForm {
   id: string;
   category_id: string | null;
   name: string;
-  sku: string;
-  description: string;
+  sku: string | null;
+  description: string | null;
   price: string;
-  offer_price: string;
+  offer_price: string | null;
   stock: number;
   variants: Array<ProductVariantDTO>;
 }

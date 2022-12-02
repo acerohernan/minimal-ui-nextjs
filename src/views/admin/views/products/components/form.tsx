@@ -1,16 +1,18 @@
 import React from "react";
-import { IProduct } from "../context/types";
+import { IProduct, IProductImage } from "../context/types";
 
 import { nanoid } from "nanoid";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import ImageInput from "../../../../../components/form/image";
+import { toast } from "react-hot-toast";
+import { API } from "../../../../../api";
 import Select from "../../../../../components/form/select";
 import TextInput from "../../../../../components/form/text";
 import useTranslation from "../../../../../i18n/useTranslation";
 import VariantCard from "../components/variant/card";
 import { IProductVariant } from "../context/types";
+import ProductImagesForm from "./images";
 import ProductVariantModal from "./variant/modal";
 
 interface Props {
@@ -23,6 +25,15 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [images, setImages] = useState<Record<string, IProductImage>>(() => {
+    let state: Record<string, IProductImage> = {};
+
+    product.images.forEach((img) => {
+      state[img.id] = img;
+    });
+
+    return state;
+  });
   const [variants, setVariants] = useState<Record<string, IProductVariant>>(
     () => {
       let state: Record<string, IProductVariant> = {};
@@ -46,10 +57,42 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
     data.category_id = null;
     data.variants = Object.values(variants);
     data.stock = Number(data.stock);
+    data.images = await uploadImages();
 
     setLoading(true);
     await onSave(data);
     setLoading(false);
+  }
+
+  async function uploadImages(): Promise<Array<IProductImage>> {
+    const imagesArr = Object.values(images);
+
+    for (let img of imagesArr) {
+      if (img.url.includes("blob:")) {
+        try {
+          let file = await fetch(img.url).then((r) => r.blob());
+          const formData = new FormData();
+          formData.append("img", file);
+          const response = await API.tenant.uploadImage(formData);
+          const url = response.data.url;
+
+          if (!url) throw new Error();
+
+          img.url = url;
+        } catch (err) {
+          const {
+            [img.id]: {},
+            ...filtered
+          } = images;
+          setImages(filtered);
+          toast.error(`The img cannot be uploaded`);
+        }
+      }
+    }
+
+    console.log(imagesArr);
+
+    return imagesArr;
   }
 
   function handleAddVariant(variant: IProductVariant) {
@@ -91,12 +134,10 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <label className="label block">Foto de su producto</label>
-        <ImageInput
-          id="product"
-          className="mt-2 h-52 w-52"
-          rounded="rounded-lg"
-          onChange={(file) => {}}
-        />
+        <div className="flex mt-2">
+          <ProductImagesForm images={images} setImages={setImages} />
+        </div>
+
         <div className="mt-4 grid gap-4 lg:grid-cols-2">
           <TextInput
             full

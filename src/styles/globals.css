@@ -17,11 +17,11 @@
 }
 
 .input {
-  @apply border bg-gray-50 text-sm dark:bg-gray-700 border-slate-300 dark:border-slate-600 outline-none text-gray-900 hover:border-slate-500 focus:border-slate-500 rounded-lg transition-all  dark:hover:border-slate-300 dark:text-white dark:focus:border-slate-300 disabled:text-slate-500;
+  @apply border bg-gray-50 text-sm dark:bg-gray-700 border-slate-300 dark:border-slate-600 outline-none text-gray-900 hover:border-slate-500 focus:border-slate-500 rounded-lg transition-all  dark:hover:border-slate-300 dark:text-white dark:focus:border-slate-300 disabled:text-slate-500 font-light;
 }
 
 .input-error {
-  @apply border bg-gray-50 text-sm dark:bg-gray-700 border-red-600 dark:border-red-500 outline-none text-gray-900 rounded-lg  dark:text-white;
+  @apply border bg-gray-50 text-sm dark:bg-gray-700 border-red-600 dark:border-red-500 outline-none text-gray-900 rounded-lg  dark:text-white font-light;
 }
 
 .label {

@@ -22,12 +22,19 @@ export interface IProduct {
   id: string;
   category_id: string | null;
   name: string;
-  sku: string;
-  description: string;
+  sku: string | null;
+  description: string | null;
   price: string;
-  offer_price: string;
+  offer_price: string | null;
   stock: number;
   variants: Array<IProductVariant>;
+  images: Array<IProductImage>;
+}
+
+export interface IProductImage {
+  id: string;
+  url: string;
+  featured: boolean;
 }
 
 export interface IProductVariant {

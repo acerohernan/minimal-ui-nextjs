@@ -31,11 +31,12 @@ const AdminProductsCreate = () => {
         id: "",
         category_id: null,
         description: "",
-        offer_price: "",
+        offer_price: null,
         price: "",
         sku: "",
         stock: 0,
         variants: [],
+        images: [],
       }}
       onSave={createProduct}
     />

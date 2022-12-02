@@ -58,6 +58,7 @@ const ProductVariantModal: React.FC<Props> = ({
     }
 
     onSave(data);
+    setOptions({});
     handleClose();
   }
 
