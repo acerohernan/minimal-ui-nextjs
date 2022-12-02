@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: "Poppins", sans-serif;
+  }
   body {
     @apply dark:bg-dark-800 dark:text-slate-300 bg-white text-slate-700;
   }

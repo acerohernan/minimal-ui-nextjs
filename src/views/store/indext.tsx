@@ -3,6 +3,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import CategorySection from "./components/categorySection";
 
 const StoreView = () => {
   return (
@@ -58,6 +59,7 @@ const StoreView = () => {
           <h2 className="text-2xl font-medium">Destacados</h2>
         </div>
       </div>
+      <CategorySection />
     </div>
   );
 };
