@@ -2,7 +2,8 @@ import {
   Bars3BottomLeftIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import { BellIcon, EyeIcon } from "@heroicons/react/24/solid";
+import { EyeIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 import React from "react";
 import NoSsr from "react-no-ssr";
 import SideBar from "../sidebar";
@@ -30,13 +31,21 @@ const AdminHeader = () => {
           <NoSsr>
             <LanguageButton />
           </NoSsr>
-          <button className="icon-button">
-            <EyeIcon className="icon" />
-          </button>
+          <div className="flex gap-1 items-center mr-1">
+            <Link className="icon-button" href="/acerostore">
+              <EyeIcon className="icon" />
+            </Link>
+            <Link
+              className="hidden hover:underline text-sm font-light md:flex"
+              href="/acerostore"
+            >
+              Ver tienda
+            </Link>
+          </div>
 
-          <button className="icon-button">
+          {/*   <button className="icon-button">
             <BellIcon className="icon" />
-          </button>
+          </button> */}
           <AvatarButton />
         </div>
       </div>
