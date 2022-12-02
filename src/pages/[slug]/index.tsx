@@ -1,16 +1,16 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { IStore } from "../../views/admin/views/store/context/types";
-import StoreNotFoundView from "../../views/store/views/notFound";
+import StoreView from "../../views/store/indext";
 
-const StorePage = ({
+const Store = ({
   store,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  if (!store) return <StoreNotFoundView />;
+  /* if (!store) return <StoreNotFoundView />; */
 
-  return <div>StorePage</div>;
+  return <StoreView />;
 };
 
-export default StorePage;
+export default Store;
 
 export const getServerSideProps: GetServerSideProps<{
   store: IStore | null;
