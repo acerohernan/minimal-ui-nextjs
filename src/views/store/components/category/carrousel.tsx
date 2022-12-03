@@ -5,7 +5,7 @@ const CategoryCarrousel = () => {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <span className="text-xl">Categorías</span>
-      <div className="scrollbar-hide scrollbar-store overflow-x-auto whitespace-nowrap gap-4 flex pl-1 p-6 pt-4">
+      <div className="scrollbar-hide scrollbar-store overflow-x-auto whitespace-nowrap gap-4 flex pl-1 p-6">
         <CarrouselItem />
         <CarrouselItem />
         <CarrouselItem />

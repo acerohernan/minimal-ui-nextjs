@@ -3,8 +3,9 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import CategorySection from "./components/category";
 import CategoryCarrousel from "./components/category/carrousel";
-import CategorySection from "./components/categorySection";
+import FeaturedSection from "./components/featured";
 
 const StoreView = () => {
   return (
@@ -34,7 +35,7 @@ const StoreView = () => {
             src="/logo.jpg"
             width={800}
             height={800}
-            className="w-36 h-24 sm:w-52 sm:h-36 md:w-72 md:h-40 lg:w-80 lg:h-48 rounded-lg shadow-lg  absolute z-10 -bottom-12 sm:-bottom-16 md:-bottom-20 lg:-bottom-24 right-0 left-0 mx-auto
+            className="w-36 h-24 sm:w-52 sm:h-36 md:w-72 md:h-40 lg:w-72 lg:h-48 rounded-lg shadow-lg  absolute z-10 -bottom-12 sm:-bottom-16 md:-bottom-20 lg:-bottom-24 right-0 left-0 mx-auto
             object-cover"
             alt="logo"
           />
@@ -55,14 +56,12 @@ const StoreView = () => {
           </div>
         </div>
       </div>
-      <div className="p-6 bg-gray-50 h-96">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-medium">Destacados</h2>
-        </div>
+      <FeaturedSection />
+      <div className="py-6">
+        <CategoryCarrousel />
+        <CategorySection />
+        <CategorySection />
       </div>
-      <CategoryCarrousel />
-      <CategorySection />
-      <CategorySection />
     </div>
   );
 };
