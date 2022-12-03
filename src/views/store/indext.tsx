@@ -3,6 +3,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import CategoryCarrousel from "./components/category/carrousel";
 import CategorySection from "./components/categorySection";
 
 const StoreView = () => {
@@ -23,7 +24,7 @@ const StoreView = () => {
             src="/banner.jpg"
             width={2000}
             height={600}
-            className="w-full max-w-6xl mx-auto z-10 relative max-h-[150px] sm:max-h-[200px] 
+            className="w-full max-w-6xl mx-auto z-10 relative max-h-[140px] sm:max-h-[160px] 
             md:max-h-[250px] lg:max-h-[300px]
             object-cover"
             alt="banner"
@@ -59,6 +60,8 @@ const StoreView = () => {
           <h2 className="text-2xl font-medium">Destacados</h2>
         </div>
       </div>
+      <CategoryCarrousel />
+      <CategorySection />
       <CategorySection />
     </div>
   );

@@ -14,7 +14,7 @@ const ProductCard = () => {
         <span className="text-slate-700 font-light">
           Start Wars - Cortina luces LED
         </span>
-        <span className="text-black font-medium text-xl block">S/ 80.00</span>
+        <span className="text-black font-medium text-lg block">S/ 80.00</span>
       </div>
     </div>
   );

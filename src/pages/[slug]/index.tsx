@@ -5,8 +5,8 @@ import StoreView from "../../views/store/indext";
 const Store = ({
   store,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  /* if (!store) return <StoreNotFoundView />; */
-
+  /*  if (!store) return <StoreNotFoundView />;
+   */
   return <StoreView />;
 };
 
