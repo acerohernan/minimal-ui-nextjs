@@ -2,9 +2,10 @@ import Link from "next/link";
 import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
 import StoreDesign from "./components/design";
-import StoreDomain from "./components/domain";
-import StoreInfoForm from "./components/information";
+import AdminStoreDomain from "./components/domain";
+import AdminStoreInfoForm from "./components/information";
 import AdminStoreSkeleton from "./components/skeleton";
+import AdminStoreSocialForm from "./components/social";
 import { useAdminStoreContext } from "./context";
 
 const AdminStoreView = () => {
@@ -36,8 +37,11 @@ const AdminStoreView = () => {
         <div className="grid gap-4 mt-4 lg:mt-14">
           <StoreDesign />
           <div className="grid xl:grid-cols-[2fr_1fr] gap-4">
-            <StoreInfoForm />
-            <StoreDomain />
+            <div className="grid gap-4">
+              <AdminStoreInfoForm />
+              <AdminStoreDomain />
+            </div>
+            <AdminStoreSocialForm />
           </div>
         </div>
       )}

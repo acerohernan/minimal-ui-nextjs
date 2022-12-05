@@ -24,3 +24,12 @@ export interface VarianOptionDTO {
 
 export interface UpdateProductForm
   extends Partial<Omit<CreateProductForm, "id">> {}
+
+export interface CreateProductCategoryForm {
+  id: string;
+  name: string;
+  img_url: string;
+}
+
+export interface UpdateProductCategoryForm
+  extends Partial<Omit<CreateProductCategoryForm, "id">> {}

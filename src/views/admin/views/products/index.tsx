@@ -1,3 +1,4 @@
+import { CameraIcon } from "@heroicons/react/24/outline";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -8,6 +9,7 @@ import { useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductCard from "./components/card";
+import AdminProductCategoryModal from "./components/category/modal";
 import AdminProductSkeleton from "./components/skeleton";
 import { useAdminProductsContext } from "./context";
 
@@ -28,6 +30,7 @@ const AdminProductsView = () => {
 
   const { t } = useTranslation();
   const [productsLoaded, setProductsLoaded] = useState(false);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
 
   return (
     <div>
@@ -48,16 +51,36 @@ const AdminProductsView = () => {
       </div>
       {productsLoaded && products ? (
         <div>
-          <div className="flex justify-end mt-4 lg:mt-14 mb-2">
+          <div className="flex justify-between mt-4 lg:mt-14 mb-2">
+            <button
+              className="button flex text-sm"
+              onClick={() => setShowCategoryModal(true)}
+            >
+              Create Category
+              <PlusIcon className="w-5 h-5 block ml-1" />
+            </button>
             <Link className="button flex text-sm" href="/admin/products/create">
               Create Product
               <PlusIcon className="w-5 h-5 block ml-1" />
             </Link>
           </div>
           <div className="card w-full grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-            {products.map((product, i) => (
-              <ProductCard key={i} product={product} />
-            ))}
+            {products.length > 0 ? (
+              products.map((product, i) => (
+                <ProductCard key={i} product={product} />
+              ))
+            ) : (
+              <Link
+                className="border border-dashed rounded-lg border-slate-400 dark:border-slate-500 flex flex-col items-center justify-center hover:border-slate-700 transition-all dark:hover:border-slate-200
+              dark:text-slate-400 dark:hover:text-slate-200
+              text-slate-500 hover:text-slate-700 h-[342px]
+              "
+                href="/admin/products/create"
+              >
+                <CameraIcon className="w-8 h-8" />
+                <span>Agregar producto</span>
+              </Link>
+            )}
           </div>
           <div className="card w-48 h-16 mx-auto mt-6 flex items-center justify-center">
             <button
@@ -71,6 +94,11 @@ const AdminProductsView = () => {
               <ChevronRightIcon className="icon" />
             </button>
           </div>
+          {showCategoryModal && (
+            <AdminProductCategoryModal
+              handleClose={() => setShowCategoryModal(false)}
+            />
+          )}
         </div>
       ) : null}
       {!productsLoaded && <AdminProductSkeleton />}

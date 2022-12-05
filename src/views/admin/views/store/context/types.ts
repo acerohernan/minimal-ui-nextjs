@@ -1,4 +1,8 @@
-import { StoreUpdateInformationForm } from "../../../../../api/store/types";
+import {
+  StoreUpdateInformationForm,
+  StoreUpdateSocialForm,
+} from "../../../../../api/store/types";
+import { IStoreSocial } from "../../../../store/types";
 
 export interface IAdminStoreContext {
   state: IAdminStoreState;
@@ -10,6 +14,7 @@ export interface IAdminStoreState {
 export interface IAdminStoreActions {
   getInformation: () => Promise<void>;
   updateInformation: (form: StoreUpdateInformationForm) => Promise<void>;
+  updateSocial: (form: StoreUpdateSocialForm) => Promise<void>;
   uploadImage: (file: File) => Promise<{ url: string | null }>;
 }
 
@@ -28,4 +33,5 @@ export interface IStore {
   telephone: string;
   whatsapp: string;
   tenant_id: string;
+  social: IStoreSocial;
 }

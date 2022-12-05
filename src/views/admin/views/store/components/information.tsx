@@ -18,7 +18,7 @@ const CATEGORIES: StoreCategory[] = [
   { name: "Instrumentos musicales" },
 ];
 
-const StoreInfoForm = () => {
+const AdminStoreInfoForm = () => {
   const {
     state: { store },
     actions: { updateInformation },
@@ -29,8 +29,10 @@ const StoreInfoForm = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<StoreUpdateInformationForm>();
+
+  const [loading, setLoading] = useState(false);
 
   const [telephonePrefix, setTelephonePrefix] = useState(() =>
     getPrefixFromPhoneNumber(store?.telephone || "")
@@ -43,7 +45,9 @@ const StoreInfoForm = () => {
     data.telephone = `${telephonePrefix}${data.telephone}`;
     data.whatsapp = `${whatsappPrefix}${data.whatsapp}`;
 
+    setLoading(true);
     await updateInformation(data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -144,10 +148,29 @@ const StoreInfoForm = () => {
             }),
           }}
         />
+        <div className="col-span-2">
+          <TextInput
+            label={"Description"}
+            full={true}
+            error={errors.description?.message}
+            optional
+            textarea
+            inputProps={{
+              ...register("description", {
+                value: store?.description || "",
+              }),
+              rows: 5,
+            }}
+          />
+        </div>
       </div>
 
       <div className="flex justify-end mt-4">
-        <button className="button text-sm" type="submit">
+        <button
+          className="button text-sm"
+          type="submit"
+          disabled={!isDirty || loading}
+        >
           {t("Save Changes")}
         </button>
       </div>
@@ -155,4 +178,4 @@ const StoreInfoForm = () => {
   );
 };
 
-export default StoreInfoForm;
+export default AdminStoreInfoForm;

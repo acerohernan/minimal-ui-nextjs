@@ -3,7 +3,7 @@ import ImageInput from "../../../../../components/form/image";
 import useTranslation from "../../../../../i18n/useTranslation";
 import { useAdminStoreContext } from "../context";
 
-const StoreDesign = () => {
+const AdminStoreDesign = () => {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const { t } = useTranslation();
@@ -90,4 +90,4 @@ const StoreDesign = () => {
   );
 };
 
-export default StoreDesign;
+export default AdminStoreDesign;

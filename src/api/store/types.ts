@@ -10,3 +10,12 @@ export interface StoreUpdateInformationForm {
   team_img?: string;
   team_description?: string;
 }
+
+export interface StoreUpdateSocialForm {
+  facebook: string;
+  instagram: string;
+  pinterest: string;
+  twitter: string;
+  tiktok: string;
+  youtube: string;
+}

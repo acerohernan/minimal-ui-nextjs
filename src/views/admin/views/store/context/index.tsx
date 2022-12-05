@@ -2,9 +2,13 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { PropsWithChildren } from "react";
 import { API } from "../../../../../api";
-import { StoreUpdateInformationForm } from "../../../../../api/store/types";
+import {
+  StoreUpdateInformationForm,
+  StoreUpdateSocialForm,
+} from "../../../../../api/store/types";
 import { getHttpError } from "../../../../../helpers/httpError";
 import { useToast } from "../../../../../hooks/useToast";
+import { IStoreSocial } from "../../../../store/types";
 import {
   IAdminStoreActions,
   IAdminStoreContext,
@@ -28,10 +32,16 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
 
   async function getInformation() {
     try {
-      const response = await API.store.getInformation();
-      const store = response.data.store;
-      console.log(store);
-      setState({ ...state, store });
+      const [storeRpta, socialRpta] = await Promise.all([
+        API.store.getInformation(),
+        API.store.getSocialInformation(),
+      ]);
+      /* Get the store information */
+
+      const store = storeRpta.data.store;
+      const social = socialRpta.data.social;
+
+      setState({ ...state, store: { ...store, social } });
     } catch (err) {
       toast.error(getHttpError(err));
       Cookies.remove("token");
@@ -43,6 +53,22 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
     try {
       await API.store.updateInformation(form);
       setState({ ...state, store: { ...(state.store as IStore), ...form } });
+      toast.success("Información actualizada");
+    } catch (err) {
+      toast.error(getHttpError(err));
+    }
+  }
+
+  async function updateSocial(form: StoreUpdateSocialForm) {
+    try {
+      await API.store.updateSocialInformation(form);
+      setState({
+        ...state,
+        store: {
+          ...(state.store as IStore),
+          social: { ...state.store?.social, ...(form as IStoreSocial) },
+        },
+      });
       toast.success("Información actualizada");
     } catch (err) {
       toast.error(getHttpError(err));
@@ -65,6 +91,7 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
     getInformation,
     updateInformation,
     uploadImage,
+    updateSocial,
   };
 
   return (

@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { API } from "../../../../../api";
 import {
+  CreateProductCategoryForm,
+  UpdateProductCategoryForm,
+} from "../../../../../api/product/types";
+import {
   IAdminProductActions,
   IAdminProductContext,
   IAdminProductState,
@@ -43,6 +47,17 @@ export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
       push("/login");
     }
   }
+
+  async function createProductCategory(form: CreateProductCategoryForm) {
+    try {
+      await API.product.createProductCategory(form);
+      toast.success("Categoría creada correctamente");
+    } catch (err) {
+      toast.error("Ha ocurrido un error al crear la categoría");
+    }
+  }
+
+  async function updateProductCategory(data: UpdateProductCategoryForm) {}
 
   const actions: IAdminProductActions = { getAllProducts };
 

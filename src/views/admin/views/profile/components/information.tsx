@@ -20,7 +20,7 @@ const ProfileInfoForm = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<TenantUpdateInformationForm>();
 
   const [loading, setLoading] = useState(false);
@@ -128,7 +128,11 @@ const ProfileInfoForm = () => {
         </div>
 
         <div className="flex justify-end mt-4">
-          <button className="button text-sm" type="submit" disabled={loading}>
+          <button
+            className="button text-sm"
+            type="submit"
+            disabled={!isDirty || loading}
+          >
             {t("Save Changes")}
           </button>
         </div>

@@ -3,7 +3,7 @@ import TextInput from "../../../../../components/form/text";
 import useTranslation from "../../../../../i18n/useTranslation";
 import { useAdminStoreContext } from "../context";
 
-const StoreDomain = () => {
+const AdminStoreDomain = () => {
   const {
     state: { store },
   } = useAdminStoreContext();
@@ -14,7 +14,7 @@ const StoreDomain = () => {
   return (
     <div className="card w-full p-6" style={{ maxHeight: "255px" }}>
       <span className="label block mb-2">{t("Update your domain")}</span>
-      <div className="grid grid-cols-[120px_1fr] items-center gap-2 w-full">
+      <div className="grid grid-cols-[130px_1fr] items-center gap-2 w-full">
         <span className="p-3">mitienda.com/</span>
         <TextInput
           className="w-full"
@@ -39,4 +39,4 @@ const StoreDomain = () => {
   );
 };
 
-export default StoreDomain;
+export default AdminStoreDomain;

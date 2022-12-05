@@ -1,6 +1,11 @@
 import { BASE_URL, fetchData } from "..";
 import { authHeaders } from "../helpers";
-import { CreateProductForm, UpdateProductForm } from "./types";
+import {
+  CreateProductCategoryForm,
+  CreateProductForm,
+  UpdateProductCategoryForm,
+  UpdateProductForm,
+} from "./types";
 
 export const getAllProducts = (page = 1, limit = 10) =>
   fetchData.get(`${BASE_URL}/product/store?page=${page}&&limit=${limit}`, {
@@ -28,6 +33,30 @@ export const updateProduct = (productId: string, form: UpdateProductForm) =>
 
 export const deleteProduct = (productId: string) =>
   fetchData.delete(`${BASE_URL}/product/${productId}`, {
+    headers: {
+      ...authHeaders(),
+    },
+  });
+
+export const createProductCategory = (form: CreateProductCategoryForm) =>
+  fetchData.post(`${BASE_URL}/product/category`, form, {
+    headers: {
+      ...authHeaders(),
+    },
+  });
+
+export const updateProductCategory = (
+  categoryId: string,
+  form: UpdateProductCategoryForm
+) =>
+  fetchData.patch(`${BASE_URL}/product/category/${categoryId}`, form, {
+    headers: {
+      ...authHeaders(),
+    },
+  });
+
+export const deleteCategoryProduct = (categoryId: string) =>
+  fetchData.delete(`${BASE_URL}/product/category/${categoryId}`, {
     headers: {
       ...authHeaders(),
     },
