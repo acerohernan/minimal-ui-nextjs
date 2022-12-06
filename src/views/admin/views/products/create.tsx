@@ -6,6 +6,8 @@ import { useToast } from "../../../../hooks/useToast";
 import AdminProductForm from "./components/form";
 import { IProduct } from "./context/types";
 
+interface Props {}
+
 const AdminProductsCreate = () => {
   const toast = useToast();
   const { push } = useRouter();

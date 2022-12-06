@@ -38,11 +38,15 @@ export const deleteProduct = (productId: string) =>
     },
   });
 
-export const getAllCategories = () =>
+export const getAllCategories = (tokenServer?: string) =>
   fetchData.get(`${BASE_URL}/product/category/store`, {
-    headers: {
-      ...authHeaders(),
-    },
+    headers: tokenServer
+      ? {
+          authorization: `Bearer ${tokenServer}`,
+        }
+      : {
+          ...authHeaders(),
+        },
   });
 
 export const createProductCategory = (form: CreateProductCategoryForm) =>
@@ -62,7 +66,7 @@ export const updateProductCategory = (
     },
   });
 
-export const deleteCategoryProduct = (categoryId: string) =>
+export const deleteProductCategory = (categoryId: string) =>
   fetchData.delete(`${BASE_URL}/product/category/${categoryId}`, {
     headers: {
       ...authHeaders(),

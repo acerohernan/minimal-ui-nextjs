@@ -32,4 +32,4 @@ export interface CreateProductCategoryForm {
 }
 
 export interface UpdateProductCategoryForm
-  extends Partial<Omit<CreateProductCategoryForm, "id">> {}
+  extends Omit<CreateProductCategoryForm, "id"> {}

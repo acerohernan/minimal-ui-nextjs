@@ -45,7 +45,7 @@ const Select: React.FC<Props> = ({
         type="button"
         onClick={() => setOpen(!open)}
       >
-        {selected.component}
+        <div>{selected.component}</div>
         {open ? (
           <ChevronUpIcon className="w-4 h-4 ml-2" />
         ) : (

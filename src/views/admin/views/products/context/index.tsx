@@ -1,13 +1,13 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
 import { API } from "../../../../../api";
 import {
   CreateProductCategoryForm,
   UpdateProductCategoryForm,
 } from "../../../../../api/product/types";
 import { getHttpError } from "../../../../../helpers/httpError";
+import { useToast } from "../../../../../hooks/useToast";
 import {
   IAdminProductActions,
   IAdminProductContext,
@@ -29,13 +29,26 @@ const initialState: IAdminProductState = {
     page_count: 0,
   },
   categories: {},
+  selectedCategory: {
+    id: "",
+    img_url: "",
+    name: "",
+  },
 };
 
-export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
-  const [state, setState] = useState<IAdminProductState>(initialState);
+export const AdminProductProvider: React.FC<
+  React.PropsWithChildren<{ categories: Array<IProductCategory> }>
+> = ({ children, categories }) => {
+  const [state, setState] = useState<IAdminProductState>(() => {
+    let catMap = {};
+    categories.forEach((cat) => {
+      catMap = { ...catMap, [cat.id]: cat };
+    });
 
+    return { ...initialState, categories: catMap };
+  });
+
+  const toast = useToast();
   const { push } = useRouter();
 
   async function getAllProducts() {
@@ -85,12 +98,61 @@ export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
     }
   }
 
-  async function updateProductCategory(data: UpdateProductCategoryForm) {}
+  async function updateProductCategory(
+    categoryId: string,
+    form: UpdateProductCategoryForm
+  ) {
+    try {
+      await API.product.updateProductCategory(categoryId, form);
+      setState({
+        ...state,
+        categories: {
+          ...state.categories,
+          [categoryId]: {
+            id: categoryId,
+            img_url: form.img_url,
+            name: form.name,
+          },
+        },
+      });
+      toast.success("Información actualizada con éxito");
+    } catch (err) {
+      toast.error("Ha ocurrido un error al editar la información");
+    }
+  }
+
+  async function deleteProductCategory(categoryId: string) {
+    try {
+      await API.product.deleteProductCategory(categoryId);
+      const {
+        [categoryId]: {},
+        ...categories
+      } = state.categories;
+      setState({
+        ...state,
+        categories,
+      });
+      toast.success("Recurso eliminado con éxito");
+    } catch (err) {
+      toast.error("Ha ocurrido un error al eliminar la información");
+    }
+  }
+
+  async function handleSelectCategory(id: string) {
+    const category = state.categories[id];
+
+    if (!category) toast.error("No se puede editar esta categoría");
+
+    setState({ ...state, selectedCategory: category });
+  }
 
   const actions: IAdminProductActions = {
     getAllProducts,
     getAllCategories,
     createProductCategory,
+    updateProductCategory,
+    deleteProductCategory,
+    handleSelectCategory,
   };
 
   return (

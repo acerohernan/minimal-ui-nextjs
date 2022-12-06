@@ -7,10 +7,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { API } from "../../../../../api";
-import Select from "../../../../../components/form/select";
+import Select, { SelectOption } from "../../../../../components/form/select";
 import TextInput from "../../../../../components/form/text";
 import useTranslation from "../../../../../i18n/useTranslation";
 import VariantCard from "../components/variant/card";
+import { useAdminProductsContext } from "../context";
 import { IProductVariant } from "../context/types";
 import ProductImagesForm from "./images";
 import ProductVariantModal from "./variant/modal";
@@ -22,6 +23,23 @@ interface Props {
 
 const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
   const { t } = useTranslation();
+  const {
+    actions: { getAllCategories },
+    state: { categories },
+  } = useAdminProductsContext();
+
+  const categoriesArr = Object.values(categories);
+  const selectedCatOption: SelectOption =
+    product.category_id && categories[product.category_id]
+      ? {
+          value: categories[product.category_id].id,
+          component: <>{categories[product.category_id].name}</>,
+        }
+      : {
+          value: "",
+          component: <> </>,
+        };
+
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -50,14 +68,16 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IProduct>();
 
   async function onSubmit(data: IProduct) {
-    data.category_id = null;
     data.variants = Object.values(variants);
     data.stock = Number(data.stock);
     data.images = await uploadImages();
+
+    if (!data.offer_price) data.offer_price = null;
 
     setLoading(true);
     await onSave(data);
@@ -89,8 +109,6 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
         }
       }
     }
-
-    console.log(imagesArr);
 
     return imagesArr;
   }
@@ -217,24 +235,23 @@ const AdminProductForm: React.FC<Props> = ({ product, onSave }) => {
             }}
             error={errors.stock?.message}
           />
+
           <div>
             <label className="block mb-2 label">Category</label>
             <Select
-              onChange={(opt) => {}}
-              items={[
-                {
-                  value: "Category1",
-                  component: <>Category1</>,
-                },
-                {
-                  value: "Category2",
-                  component: <>Category2</>,
-                },
-              ]}
-              className="input p-3 w-full"
+              onChange={(opt) => {
+                setValue("category_id", opt.value);
+              }}
+              items={categoriesArr.map((cat) => ({
+                value: cat.id,
+                component: <>{cat.name}</>,
+              }))}
+              selectedOption={selectedCatOption}
+              className="input p-3 h-[46px] w-full"
               optionsContainerClassname="w-full"
             />
           </div>
+
           <div className="lg:col-span-2 mt-4">
             <span className="label block mb-2">Variantes</span>
             <div className="grid gap-6">

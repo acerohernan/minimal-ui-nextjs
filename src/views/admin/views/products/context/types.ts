@@ -1,4 +1,7 @@
-import { CreateProductCategoryForm } from "../../../../../api/product/types";
+import {
+  CreateProductCategoryForm,
+  UpdateProductCategoryForm,
+} from "../../../../../api/product/types";
 
 export interface IAdminProductContext {
   state: IAdminProductState;
@@ -16,11 +19,18 @@ export interface IAdminProductState {
     entities_count: number;
   };
   categories: Record<string, IProductCategory>;
+  selectedCategory: IProductCategory;
 }
 export interface IAdminProductActions {
   getAllProducts: () => Promise<void>;
   getAllCategories: () => Promise<void>;
   createProductCategory: (form: CreateProductCategoryForm) => Promise<void>;
+  updateProductCategory: (
+    id: string,
+    form: UpdateProductCategoryForm
+  ) => Promise<void>;
+  deleteProductCategory: (id: string) => Promise<void>;
+  handleSelectCategory: (categoryId: string) => void;
 }
 
 export interface IProduct {

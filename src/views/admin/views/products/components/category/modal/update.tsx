@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
 import { API } from "../../../../../../../api";
 import { CreateProductCategoryForm } from "../../../../../../../api/product/types";
 import ImageInput from "../../../../../../../components/form/image";
 import TextInput from "../../../../../../../components/form/text";
-import { useToast } from "../../../../../../../hooks/useToast";
 import { useAdminProductsContext } from "../../../context";
 
 interface Props {
@@ -18,20 +16,21 @@ const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
     handleSubmit,
     clearErrors,
     setError,
+    setValue,
     formState: { errors },
   } = useForm<CreateProductCategoryForm>();
   const {
-    actions: { createProductCategory },
+    state: { selectedCategory },
+    actions: { updateProductCategory },
   } = useAdminProductsContext();
 
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const toast = useToast();
 
   async function onSubmit(form: CreateProductCategoryForm) {
     setLoading(true);
 
-    if (!file) {
+    if (!file && !selectedCategory.img_url) {
       setError("img_url", { message: "The field is required" });
       setLoading(false);
       return;
@@ -46,12 +45,14 @@ const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
       if (url) form.img_url = url;
     }
 
-    form.id = uuid();
-
-    await createProductCategory(form);
-    handleClose();
+    await updateProductCategory(form.id, form);
     setLoading(false);
   }
+
+  useEffect(() => {
+    setValue("id", selectedCategory.id);
+    setValue("img_url", selectedCategory.img_url);
+  }, []);
 
   return (
     <div className="fixed top-0 right-0 bottom-0 left-0 w-full h-screen bg-black/50 dark:bg-gray-100/20 z-30">
@@ -68,6 +69,7 @@ const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
                   message: "The name must have a 6 characters minimum",
                   value: 6,
                 },
+                value: selectedCategory.name,
               }),
             }}
           />
@@ -77,6 +79,7 @@ const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
               id="category_img"
               className="w-full h-[350px]"
               rounded="rounded-lg"
+              defaultUrl={selectedCategory.img_url}
               onChange={(file) => {
                 setFile(file);
                 clearErrors("img_url");
@@ -100,7 +103,7 @@ const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
             disabled={loading}
             onClick={handleSubmit(onSubmit)}
           >
-            Añadir
+            Guardar cambios
           </button>
         </div>
       </div>

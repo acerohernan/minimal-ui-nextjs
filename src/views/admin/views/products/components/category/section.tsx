@@ -1,36 +1,35 @@
-import { PencilSquareIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+import { useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import { useAdminProductsContext } from "../../context";
+import ProductCategoryCard from "./card";
+import AdminProductCategoryUpdateModal from "./modal/update";
 
 const ProuductCategorySection = () => {
   const {
     state: { categories },
-    actions: { getAllCategories },
+    actions: { getAllCategories, handleSelectCategory, deleteProductCategory },
   } = useAdminProductsContext();
 
   useSWRImmutable("product/category", getAllCategories);
 
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
   return (
-    <div className="py-6 flex items-center gap-2">
+    <div className="py-6 flex items-center gap-2 flex-wrap">
       {Object.values(categories).map((cat, i) => (
-        <div
+        <ProductCategoryCard
+          category={cat}
           key={i}
-          className="flex items-center gap-2 rounded-xl shadow-md p-2 dark:bg-dark-500"
-        >
-          <Image
-            src={cat.img_url}
-            width={100}
-            height={100}
-            alt={cat.name}
-            className="rounded-full w-10 h-10"
-          />
-          <span className="text-sm">{cat.name}</span>
-          <button className="icon-buttom">
-            <PencilSquareIcon className="icon" />
-          </button>
-        </div>
+          handleOpenModal={() => setShowUpdateModal(true)}
+        />
       ))}
+      {showUpdateModal && (
+        <AdminProductCategoryUpdateModal
+          handleClose={() => {
+            setShowUpdateModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

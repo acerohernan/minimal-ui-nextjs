@@ -5,7 +5,7 @@ import { AdminProductProvider } from "../../../views/admin/views/products/contex
 const AdminProducts = () => {
   return (
     <AdminLayout>
-      <AdminProductProvider>
+      <AdminProductProvider categories={[]}>
         <AdminProductsView />
       </AdminProductProvider>
     </AdminLayout>
