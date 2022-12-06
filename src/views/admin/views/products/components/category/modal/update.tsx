@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
-import { API } from "../../../../../../api";
-import { CreateProductCategoryForm } from "../../../../../../api/product/types";
-import ImageInput from "../../../../../../components/form/image";
-import TextInput from "../../../../../../components/form/text";
-import { getHttpError } from "../../../../../../helpers/httpError";
-import { useToast } from "../../../../../../hooks/useToast";
+import { API } from "../../../../../../../api";
+import { CreateProductCategoryForm } from "../../../../../../../api/product/types";
+import ImageInput from "../../../../../../../components/form/image";
+import TextInput from "../../../../../../../components/form/text";
+import { useToast } from "../../../../../../../hooks/useToast";
+import { useAdminProductsContext } from "../../../context";
 
 interface Props {
   handleClose: () => void;
 }
 
-const AdminProductCategoryModal: React.FC<Props> = ({ handleClose }) => {
+const AdminProductCategoryUpdateModal: React.FC<Props> = ({ handleClose }) => {
   const {
     register,
     handleSubmit,
@@ -20,6 +20,9 @@ const AdminProductCategoryModal: React.FC<Props> = ({ handleClose }) => {
     setError,
     formState: { errors },
   } = useForm<CreateProductCategoryForm>();
+  const {
+    actions: { createProductCategory },
+  } = useAdminProductsContext();
 
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -27,33 +30,26 @@ const AdminProductCategoryModal: React.FC<Props> = ({ handleClose }) => {
 
   async function onSubmit(form: CreateProductCategoryForm) {
     setLoading(true);
-    try {
-      /* File config */
 
-      if (!file) {
-        setError("img_url", { message: "The field is required" });
-        setLoading(false);
-        return;
-      }
-
-      if (file) {
-        const formData = new FormData();
-        formData.append("img", file);
-        const response = await API.tenant.uploadImage(formData);
-        const url = response.data.url;
-
-        if (url) form.img_url = url;
-      }
-
-      /* Id setup */
-      form.id = uuid();
-
-      await API.product.createProductCategory(form);
-      toast.success("Categoría creada correctamente");
-      handleClose();
-    } catch (err) {
-      toast.error(getHttpError(err));
+    if (!file) {
+      setError("img_url", { message: "The field is required" });
+      setLoading(false);
+      return;
     }
+
+    if (file) {
+      const formData = new FormData();
+      formData.append("img", file);
+      const response = await API.tenant.uploadImage(formData);
+      const url = response.data.url;
+
+      if (url) form.img_url = url;
+    }
+
+    form.id = uuid();
+
+    await createProductCategory(form);
+    handleClose();
     setLoading(false);
   }
 
@@ -112,4 +108,4 @@ const AdminProductCategoryModal: React.FC<Props> = ({ handleClose }) => {
   );
 };
 
-export default AdminProductCategoryModal;
+export default AdminProductCategoryUpdateModal;

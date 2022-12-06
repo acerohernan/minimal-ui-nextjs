@@ -38,6 +38,13 @@ export const deleteProduct = (productId: string) =>
     },
   });
 
+export const getAllCategories = () =>
+  fetchData.get(`${BASE_URL}/product/category/store`, {
+    headers: {
+      ...authHeaders(),
+    },
+  });
+
 export const createProductCategory = (form: CreateProductCategoryForm) =>
   fetchData.post(`${BASE_URL}/product/category`, form, {
     headers: {

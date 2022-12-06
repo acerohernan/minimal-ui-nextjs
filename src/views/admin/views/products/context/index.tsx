@@ -7,10 +7,12 @@ import {
   CreateProductCategoryForm,
   UpdateProductCategoryForm,
 } from "../../../../../api/product/types";
+import { getHttpError } from "../../../../../helpers/httpError";
 import {
   IAdminProductActions,
   IAdminProductContext,
   IAdminProductState,
+  IProductCategory,
 } from "./types";
 
 const AdminProductContext = React.createContext({} as IAdminProductContext);
@@ -26,6 +28,7 @@ const initialState: IAdminProductState = {
     next_page: 2,
     page_count: 0,
   },
+  categories: {},
 };
 
 export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
@@ -48,9 +51,34 @@ export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
     }
   }
 
+  async function getAllCategories() {
+    try {
+      const response = await API.product.getAllCategories();
+      const categories: Array<IProductCategory> = response.data.categories;
+      let catMap = {};
+      categories.forEach((cat) => {
+        catMap = { ...catMap, [cat.id]: cat };
+      });
+      setState({ ...state, categories: catMap });
+    } catch (err) {
+      toast.error(getHttpError(err));
+    }
+  }
+
   async function createProductCategory(form: CreateProductCategoryForm) {
     try {
       await API.product.createProductCategory(form);
+      setState({
+        ...state,
+        categories: {
+          ...state.categories,
+          [form.id]: {
+            id: form.id,
+            img_url: form.img_url,
+            name: form.name,
+          },
+        },
+      });
       toast.success("Categoría creada correctamente");
     } catch (err) {
       toast.error("Ha ocurrido un error al crear la categoría");
@@ -59,7 +87,11 @@ export const AdminProductProvider: React.FC<React.PropsWithChildren> = ({
 
   async function updateProductCategory(data: UpdateProductCategoryForm) {}
 
-  const actions: IAdminProductActions = { getAllProducts };
+  const actions: IAdminProductActions = {
+    getAllProducts,
+    getAllCategories,
+    createProductCategory,
+  };
 
   return (
     <AdminProductContext.Provider value={{ actions, state }}>

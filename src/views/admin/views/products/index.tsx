@@ -9,13 +9,14 @@ import { useState } from "react";
 import useSWRImmutable from "swr/immutable";
 import useTranslation from "../../../../i18n/useTranslation";
 import ProductCard from "./components/card";
-import AdminProductCategoryModal from "./components/category/modal";
+import AdminProductCategoryCreateModal from "./components/category/modal/create";
+import ProuductCategorySection from "./components/category/section";
 import AdminProductSkeleton from "./components/skeleton";
 import { useAdminProductsContext } from "./context";
 
 const AdminProductsView = () => {
   const {
-    actions: { getAllProducts },
+    actions: { getAllProducts, getAllCategories },
     state: {
       products,
       metadata: { page, has_next_page, has_previous_page },
@@ -64,6 +65,7 @@ const AdminProductsView = () => {
               <PlusIcon className="w-5 h-5 block ml-1" />
             </Link>
           </div>
+          <ProuductCategorySection />
           <div className="card w-full grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
             {products.length > 0 ? (
               products.map((product, i) => (
@@ -95,7 +97,7 @@ const AdminProductsView = () => {
             </button>
           </div>
           {showCategoryModal && (
-            <AdminProductCategoryModal
+            <AdminProductCategoryCreateModal
               handleClose={() => setShowCategoryModal(false)}
             />
           )}

@@ -1,3 +1,5 @@
+import { CreateProductCategoryForm } from "../../../../../api/product/types";
+
 export interface IAdminProductContext {
   state: IAdminProductState;
   actions: IAdminProductActions;
@@ -13,9 +15,12 @@ export interface IAdminProductState {
     has_previous_page: boolean;
     entities_count: number;
   };
+  categories: Record<string, IProductCategory>;
 }
 export interface IAdminProductActions {
   getAllProducts: () => Promise<void>;
+  getAllCategories: () => Promise<void>;
+  createProductCategory: (form: CreateProductCategoryForm) => Promise<void>;
 }
 
 export interface IProduct {
@@ -49,4 +54,10 @@ export interface IVarianOption {
   id: string;
   name: string;
   price: string;
+}
+
+export interface IProductCategory {
+  id: string;
+  name: string;
+  img_url: string;
 }
