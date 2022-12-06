@@ -128,11 +128,7 @@ const ProfileInfoForm = () => {
         </div>
 
         <div className="flex justify-end mt-4">
-          <button
-            className="button text-sm"
-            type="submit"
-            disabled={!isDirty || loading}
-          >
+          <button className="button text-sm" type="submit" disabled={loading}>
             {t("Save Changes")}
           </button>
         </div>
