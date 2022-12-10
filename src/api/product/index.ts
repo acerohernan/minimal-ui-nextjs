@@ -49,6 +49,19 @@ export const getAllCategories = (tokenServer?: string) =>
         },
   });
 
+export const getAllCategoriesFromStore = (
+  storeId: string,
+  { limit = 4, page = 1, products = 0 } = {}
+) =>
+  fetchData.get(
+    `${BASE_URL}/product/category/store/${storeId}?limit=${limit}&page=${page}&products=${products}`,
+    {
+      headers: {
+        ...authHeaders(),
+      },
+    }
+  );
+
 export const createProductCategory = (form: CreateProductCategoryForm) =>
   fetchData.post(`${BASE_URL}/product/category`, form, {
     headers: {

@@ -1,12 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { IStore, IStoreSocial } from "../types";
+import { useStoreContext } from "../context";
+import { IStoreSocial } from "../types";
 
-interface Props {
-  store: IStore;
-}
+interface Props {}
 
-const StoreFooter: React.FC<Props> = ({ store }) => {
+const StoreFooter: React.FC<Props> = () => {
+  const {
+    state: { store },
+  } = useStoreContext();
+
   const socialKeyArr = Object.keys(store.social) as Array<keyof IStoreSocial>;
 
   return (

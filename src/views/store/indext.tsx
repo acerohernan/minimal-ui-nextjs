@@ -5,15 +5,16 @@ import {
 import Image from "next/image";
 import CategorySection from "./components/category";
 import CategoryCarrousel from "./components/category/carrousel";
-import FeaturedSection from "./components/featured";
 import StoreFooter from "./components/footer";
-import { IStore } from "./types";
+import { useStoreContext } from "./context";
 
-interface Props {
-  store: IStore;
-}
+interface Props {}
 
-const StoreView: React.FC<Props> = ({ store }) => {
+const StoreView: React.FC<Props> = () => {
+  const {
+    state: { store, categoriesWithProducts },
+  } = useStoreContext();
+
   const bannerSrc = store.banner_img || "/placeholder-banner.jpeg";
   const logoSrc = store.logo_img || "/placeholder-image.jpg";
 
@@ -65,13 +66,14 @@ const StoreView: React.FC<Props> = ({ store }) => {
           </div>
         </div>
       </div>
-      <FeaturedSection />
+      {/*  <FeaturedSection /> */}
       <div className="py-6">
         <CategoryCarrousel />
-        <CategorySection />
-        <CategorySection />
+        {categoriesWithProducts.map((cat, i) => (
+          <CategorySection category={cat} key={i} />
+        ))}
       </div>
-      <StoreFooter store={store} />
+      <StoreFooter />
     </div>
   );
 };

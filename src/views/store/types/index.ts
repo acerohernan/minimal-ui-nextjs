@@ -1,3 +1,20 @@
+import {
+  IProduct,
+  IProductCategory,
+} from "../../admin/views/products/context/types";
+
+export interface StoreContext {
+  actions: StoreActions;
+  state: StoreState;
+}
+
+export interface StoreActions {}
+export interface StoreState {
+  store: IStore;
+  categories: Array<IProductCategory>;
+  categoriesWithProducts: Array<IProductCategoryWithProducts>;
+}
+
 export interface IStore {
   banner_img: string | null;
   category: string;
@@ -25,4 +42,8 @@ export interface IStoreSocial {
   pinterest: string;
   twitter: string;
   youtube: string;
+}
+
+export interface IProductCategoryWithProducts extends IProductCategory {
+  products: Array<IProduct>;
 }
