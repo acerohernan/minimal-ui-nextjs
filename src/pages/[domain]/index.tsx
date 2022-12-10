@@ -37,6 +37,7 @@ export const getServerSideProps: GetServerSideProps<{
     if (!domain || typeof domain !== "string") throw new Error();
 
     const response = await API.store.getStoreByDomain(domain);
+
     const store: IStore = response.data.store;
 
     if (!store.id) throw new Error();

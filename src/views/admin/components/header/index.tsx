@@ -6,12 +6,16 @@ import { EyeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import React from "react";
 import NoSsr from "react-no-ssr";
+import { useAdminContext } from "../../context";
 import SideBar from "../sidebar";
 import AvatarButton from "./avatar";
 import LanguageButton from "./language";
 
 const AdminHeader = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const {
+    state: { store },
+  } = useAdminContext();
 
   return (
     <div className="relative">
@@ -31,21 +35,27 @@ const AdminHeader = () => {
           <NoSsr>
             <LanguageButton />
           </NoSsr>
-          <div className="flex gap-1 items-center mr-1">
-            <Link className="icon-button" href="/acerostore">
-              <EyeIcon className="icon" />
-            </Link>
-            <Link
-              className="hidden hover:underline text-sm font-light md:flex"
-              href="/acerostore"
-            >
-              Ver tienda
-            </Link>
-          </div>
+          {store ? (
+            <div className="flex gap-1 items-center mr-1">
+              <Link
+                className="icon-button"
+                href={`/${store?.domain}`}
+                target="_blank"
+                rel="no-referrer"
+              >
+                <EyeIcon className="icon" />
+              </Link>
+              <Link
+                className="hidden hover:underline text-sm font-light md:flex"
+                href={`/${store?.domain}`}
+                target="_blank"
+                rel="no-referrer"
+              >
+                Ver tienda
+              </Link>
+            </div>
+          ) : null}
 
-          {/*   <button className="icon-button">
-            <BellIcon className="icon" />
-          </button> */}
           <AvatarButton />
         </div>
       </div>

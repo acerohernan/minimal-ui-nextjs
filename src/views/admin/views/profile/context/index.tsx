@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import { API } from "../../../../../api";
 import { TenantUpdateInformationForm } from "../../../../../api/tenant/types";
 import { getHttpError } from "../../../../../helpers/httpError";
+import useLocalStorage from "../../../../../hooks/useLocalStorage";
 import { useToast } from "../../../../../hooks/useToast";
+import { useAdminContext } from "../../../context";
 import {
   IPorfileContext,
   IProfileActions,
@@ -22,9 +24,13 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [state, setState] = useState<IProfileState>(initialState);
+  const {
+    actions: { updateTenantInformation },
+  } = useAdminContext();
 
   const { push } = useRouter();
   const toast = useToast();
+  const { setItem } = useLocalStorage();
   const token = Cookies.get("token");
 
   async function getInformation() {
@@ -42,7 +48,9 @@ export const ProfileProvider: React.FC<React.PropsWithChildren> = ({
   async function updateInformation(form: TenantUpdateInformationForm) {
     try {
       await API.tenant.updateInformation(form);
-      setState({ ...state, tenant: { ...(state.tenant as ITenant), ...form } });
+      const tenantUpdated = { ...(state.tenant as ITenant), ...form };
+      setState({ ...state, tenant: tenantUpdated });
+      updateTenantInformation(tenantUpdated);
       toast.success("Información actualizada.");
     } catch (err) {
       toast.error(getHttpError(err));

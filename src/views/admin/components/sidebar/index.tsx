@@ -6,7 +6,6 @@ import useTranslation from "../../../../i18n/useTranslation";
 import BagIconSvg from "../icons/bag";
 import CartIconSvg from "../icons/cart";
 import HomeIconSvg from "../icons/home";
-import InvoiceIconSvg from "../icons/invoice";
 import UserIconSvg from "../icons/user";
 
 interface ISidebarItem {
@@ -25,14 +24,14 @@ const ITEMS: ISidebarItem[] = [
     label: "Home",
     href: "/admin",
   },
-  {
+  /*   {
     selectedIcon: (
       <InvoiceIconSvg className="fill-purple-900 dark:fill-purple-300" />
     ),
     icon: <InvoiceIconSvg className="fill-slate-400" />,
     label: "Orders",
     href: "/admin/orders",
-  },
+  }, */
   {
     selectedIcon: (
       <BagIconSvg className="fill-purple-900 dark:fill-purple-300" />

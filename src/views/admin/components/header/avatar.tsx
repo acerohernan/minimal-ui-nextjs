@@ -1,14 +1,21 @@
 import Cookies from "js-cookie";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useClickOutside } from "../../../../hooks/useClickOutside";
+import useLocalStorage from "../../../../hooks/useLocalStorage";
+import { useAdminContext } from "../../context";
 
 const AvatarButton = () => {
   const [open, setOpen] = useState(false);
+  const {
+    state: { tenant },
+  } = useAdminContext();
 
   const clickRef = React.useRef(null);
   const { push } = useRouter();
+  const { removeItem } = useLocalStorage();
 
   useClickOutside({
     ref: clickRef,
@@ -17,8 +24,15 @@ const AvatarButton = () => {
 
   function handleLogout() {
     Cookies.remove("token");
+    removeItem("tenant");
+    removeItem("store");
     push("/login");
   }
+
+  const name = `${tenant?.name || ""} ${
+    tenant?.surname ? `${tenant?.surname.slice(0, 1)}.` : ""
+  }`;
+  const profileSrc = tenant?.profile_img || "/avatar-placeholder.png";
 
   return (
     <div className="relative" ref={clickRef}>
@@ -27,7 +41,7 @@ const AvatarButton = () => {
         onClick={() => setOpen(!open)}
       >
         <Image
-          src="/avatar.jpg"
+          src={profileSrc}
           className="rounded-full"
           alt="badget"
           width={40}
@@ -42,26 +56,36 @@ const AvatarButton = () => {
         } dark:bg-dark-500`}
       >
         <div className="m-3 mt-0">
-          <h1 className="dark:text-white font-medium">Minimal UI</h1>
+          <h1 className="dark:text-white font-medium">{name}</h1>
           <span className="text-sm text-slate-500 dark:text-slate-400">
-            demo@minimal.cc
+            {tenant?.email || ""}
           </span>
         </div>
         <div className="border-t border-dashed border-slate-300 dark:border-slate-600 w-full h-2" />
-        <button
+        <Link
           className={`
            text-sm p-3 py-2 hover:bg-gray-400/10 rounded-lg flex items-center justify-start dark:hover:bg-gray-700/30 dark:text-white
           `}
+          href="/admin/profile"
         >
           Profile
-        </button>
-        <button
+        </Link>
+        <Link
           className={`
            text-sm p-3 py-2 hover:bg-gray-400/10 rounded-lg flex items-center justify-start dark:hover:bg-gray-700/30 dark:text-white
           `}
+          href="/admin/store"
         >
           Store
-        </button>
+        </Link>
+        <Link
+          className={`
+           text-sm p-3 py-2 hover:bg-gray-400/10 rounded-lg flex items-center justify-start dark:hover:bg-gray-700/30 dark:text-white
+          `}
+          href="/admin/store"
+        >
+          Products
+        </Link>
         <div className="border-t border-dashed mt-2 border-slate-300 dark:border-slate-600 w-full h-2" />
         <button
           className={`

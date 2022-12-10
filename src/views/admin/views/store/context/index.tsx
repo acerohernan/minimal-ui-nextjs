@@ -9,6 +9,7 @@ import {
 import { getHttpError } from "../../../../../helpers/httpError";
 import { useToast } from "../../../../../hooks/useToast";
 import { IStoreSocial } from "../../../../store/types";
+import { useAdminContext } from "../../../context";
 import {
   IAdminStoreActions,
   IAdminStoreContext,
@@ -29,6 +30,9 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
+  const {
+    actions: { updateStoreInformation },
+  } = useAdminContext();
 
   async function getInformation() {
     try {
@@ -52,7 +56,9 @@ export const AdminStoreProvider: React.FC<PropsWithChildren> = ({
   async function updateInformation(form: StoreUpdateInformationForm) {
     try {
       await API.store.updateInformation(form);
-      setState({ ...state, store: { ...(state.store as IStore), ...form } });
+      const storeUpdated = { ...(state.store as IStore), ...form };
+      setState({ ...state, store: storeUpdated });
+      updateStoreInformation(storeUpdated);
       toast.success("Información actualizada");
     } catch (err) {
       toast.error(getHttpError(err));

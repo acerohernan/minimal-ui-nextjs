@@ -8,6 +8,7 @@ import {
   TenantSignupForm,
 } from "../../../api/tenant/types";
 import { getHttpCode, getHttpError } from "../../../helpers/httpError";
+import useLocalStorage from "../../../hooks/useLocalStorage";
 import { useToast } from "../../../hooks/useToast";
 import { IAuthContext, IAuthContextActions, IAuthContextState } from "./types";
 
@@ -22,6 +23,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const { push } = useRouter();
   const toast = useToast();
+  const { setItem } = useLocalStorage();
 
   async function signup(form: TenantSignupForm): Promise<void> {
     try {
@@ -36,8 +38,10 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   async function login(form: TenantLoginForm): Promise<void> {
     try {
       const response = await API.tenant.login(form);
-      const { token } = response.data;
+      const { token, tenant, store } = response.data;
       Cookies.set("token", token);
+      setItem("tenant", JSON.stringify(tenant));
+      setItem("store", JSON.stringify(store));
       toast.success("Welcome back!");
       push("/admin");
     } catch (err) {
