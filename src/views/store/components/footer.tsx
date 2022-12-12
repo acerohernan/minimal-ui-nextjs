@@ -40,7 +40,12 @@ const StoreFooter: React.FC<Props> = () => {
                     return;
 
                   return (
-                    <a href={`http://${key}.com`} target="_blank" key={i}>
+                    <a
+                      href={`http://${key}.com`}
+                      target="_blank"
+                      rel="noreferrer"
+                      key={i}
+                    >
                       <Image
                         src={`/icons/social/${key}.svg`}
                         alt={key}

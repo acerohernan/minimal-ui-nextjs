@@ -41,7 +41,7 @@ const AdminHeader = () => {
                 className="icon-button"
                 href={`/${store?.domain}`}
                 target="_blank"
-                rel="no-referrer"
+                rel="noreferrer"
               >
                 <EyeIcon className="icon" />
               </Link>
@@ -49,7 +49,7 @@ const AdminHeader = () => {
                 className="hidden hover:underline text-sm font-light md:flex"
                 href={`/${store?.domain}`}
                 target="_blank"
-                rel="no-referrer"
+                rel="noreferrer"
               >
                 Ver tienda
               </Link>
