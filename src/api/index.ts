@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const fetchData = axios;
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import * as product from "./product";
 import * as store from "./store";
