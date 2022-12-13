@@ -28,6 +28,14 @@ const LoginView = () => {
     setLoading(false);
   }
 
+  async function loginWithDemoAccount() {
+    let form: TenantLoginForm = {
+      email: "demo@demo.com",
+      password: "Password1",
+    };
+    await onSubmit(form);
+  }
+
   return (
     <div className="px-6 h-screen flex items-center">
       <div className=" w-full max-w-md mx-auto">
@@ -83,6 +91,14 @@ const LoginView = () => {
             disabled={loading}
           >
             Login
+          </button>
+          <button
+            className="w-full py-3 border border-dark-500 text-dark-800 rounded-lg font-medium mt-2 dark:border-slate-50 dark:text-white dark:hover:border-slate-200 transition-all hover:bg-slate-50 dark:hover:bg-slate-900 disabled:opacity-50"
+            type="button"
+            disabled={loading}
+            onClick={loginWithDemoAccount}
+          >
+            Demo account
           </button>
         </form>
       </div>
